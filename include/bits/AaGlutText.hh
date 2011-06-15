@@ -15,11 +15,11 @@ namespace Aa
     class Text
     {
       public:
-        static int Width (char, void * font = GLUT_BITMAP_HELVETICA_18);
-        static int Width (const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
-        static void Write (char, void * font = GLUT_BITMAP_HELVETICA_18);
-        static void Write (const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
-        static void Write (int x, int y, const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
+        inline static int Width (char, void * font = GLUT_BITMAP_HELVETICA_18);
+        inline static int Width (const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
+        inline static void Write (char, void * font = GLUT_BITMAP_HELVETICA_18);
+        inline static void Write (const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
+        inline static void Write (int x, int y, const std::string &, void * font = GLUT_BITMAP_HELVETICA_18);
     };
 
     

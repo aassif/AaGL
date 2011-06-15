@@ -1,4 +1,4 @@
 #include "bits/AaScene.h"
-#include "bits/AaGlutText.h"
-#include "bits/AaGlutWatermark.h"
+#include "bits/AaGlutText.hh"
+#include "bits/AaGlutWatermark.hh"
 

@@ -135,12 +135,20 @@ namespace Aa
 
     GLuint Scene::PickId (const void * p)
     {
+#if 1
+      return 0;
+#else
       return (GLuint) p;
+#endif
     }
 
     void * Scene::PickPtr (GLuint id)
     {
+#if 1
+      return NULL;
+#else
       return (void *) id;
+#endif
     }
 
     Scene::Scene (const Math::pR3 & c, const Math::pR3 & t) :
