@@ -2,7 +2,7 @@
 #define __AA_GL__
 
 #ifdef _WIN32
-  #ifdef AaToolkit_EXPORTS // Merci CMake :)
+  #ifdef AaOpenGL_EXPORTS // Merci CMake :)
     #define AA_GL_API    __declspec(dllexport)
     #define AA_GL_EXTERN
   #else
