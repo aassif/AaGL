@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES // Win32
 #include <cmath>
 #include <sstream>
 #include <iomanip>
