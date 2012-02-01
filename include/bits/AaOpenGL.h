@@ -1,5 +1,5 @@
-#ifndef __AA_GL__
-#define __AA_GL__
+#ifndef __AA_OPENGL__
+#define __AA_OPENGL__
 
 #ifdef _WIN32
   #ifdef AaOpenGL_EXPORTS // Merci CMake :)
@@ -14,5 +14,5 @@
   #define AA_GL_EXTERN
 #endif
 
-#endif // __AA_GL__
+#endif // __AA_OPENGL__
 

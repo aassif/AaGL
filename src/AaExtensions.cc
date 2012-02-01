@@ -1,4 +1,5 @@
 #include <sstream>
+#include <GL/glew.h>
 #include "AaExtensions"
 
 using namespace std;

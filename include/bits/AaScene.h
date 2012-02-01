@@ -5,6 +5,8 @@
 //#include <set>
 #include <vector>
 #include <list>
+#include <GL/glew.h>
+#include <AaMath>
 
 namespace Aa
 {
@@ -47,25 +49,31 @@ namespace Aa
     {
       public:
         // Motion.
-        static const int
+        enum
+        {
           MOTION_NONE           = 0,
           MOTION_TARGET_ROTATE  = 1,
           MOTION_CAMERA_ROTATE  = 2,
           MOTION_CAMERA_FORWARD = 3,
-          MOTION_CAMERA_STRAFE  = 4;
+          MOTION_CAMERA_STRAFE  = 4
+        };
 
         // Mouse buttons.
-        static const int
+        enum
+        {
           BUTTON_LEFT   = 0,
           BUTTON_MIDDLE = 1,
-          BUTTON_RIGHT  = 2;
+          BUTTON_RIGHT  = 2
+        };
 
         // Picking modes.
-        static const int
+        enum
+        {
           PICK_SELECT  = 0,
           PICK_SWEEP   = 1,
           PICK_POPUP   = 2,
-          PICK_TOOLTIP = 3;
+          PICK_TOOLTIP = 3
+        };
 
       public:
         static GLuint PickId  (const void *);
