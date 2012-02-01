@@ -10,15 +10,15 @@ namespace Aa
   {
 
     // OpenGL commands.
-    inline static void Vertex (const Math::vR3 & v) {glVertex3d (v.x, v.y, v.z);}
-    inline static void Normal (const Math::vR3 & n) {glNormal3d (n.x, n.y, n.z);}
+    AA_GL_API inline static void Vertex (const Math::vR3 & v) {glVertex3d (v.x, v.y, v.z);}
+    AA_GL_API inline static void Normal (const Math::vR3 & n) {glNormal3d (n.x, n.y, n.z);}
 
-    inline static void Translate (const Math::pR3 & t) {glTranslated (t.x, t.y, t.z);}
-    inline static void Translate (const Math::vR3 & t) {glTranslated (t.x, t.y, t.z);}
-    inline static void Scale     (const Math::vR3 & s) {glScaled     (s.x, s.y, s.z);}
+    AA_GL_API inline static void Translate (const Math::pR3 & t) {glTranslated (t.x, t.y, t.z);}
+    AA_GL_API inline static void Translate (const Math::vR3 & t) {glTranslated (t.x, t.y, t.z);}
+    AA_GL_API inline static void Scale     (const Math::vR3 & s) {glScaled     (s.x, s.y, s.z);}
 
     // OpenGL ligthing.
-    class Lighting
+    class AA_GL_API Lighting
     {
       public:
         // glColor.

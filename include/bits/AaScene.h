@@ -5,7 +5,6 @@
 //#include <set>
 #include <vector>
 #include <list>
-#include "AaGL"
 
 namespace Aa
 {
@@ -13,7 +12,7 @@ namespace Aa
   {
 
     // Scene input.
-    class Plugin
+    class AA_GL_API Plugin
     {
       public:
         virtual ~Plugin ();
@@ -28,7 +27,7 @@ namespace Aa
 
     // Selection.
     class Scene;
-    class SelectionBox : public Plugin
+    class AA_GL_API SelectionBox : public Plugin
     {
       protected:
         const Scene * m_scene;
@@ -44,7 +43,7 @@ namespace Aa
     };
 
     // Scene.
-    class Scene
+    class AA_GL_API Scene
     {
       public:
         // Motion.

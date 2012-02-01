@@ -1,3 +1,4 @@
+#include "bits/AaOpenGL.h"
 #include "bits/AaScene.h"
 #include "bits/AaReferenceFrame.hh"
 

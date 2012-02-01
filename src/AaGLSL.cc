@@ -2,8 +2,6 @@
 #include <sstream>
 #include "AaGLSL"
 
-#include <cstdlib> // exit
-
 using namespace std;
 
 namespace Aa
@@ -51,6 +49,7 @@ namespace Aa
     ShaderException::~ShaderException () throw ()
     {
     }
+
 ////////////////////////////////////////////////////////////////////////////////
 // Aa::GL::Program /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +112,7 @@ namespace Aa
 
       glCompileShader (shader);
 
-      GLint okay;
+      GLint okay = 0;
       glGetShaderiv (shader, GL_COMPILE_STATUS, &okay);
       if (! okay)
       {
@@ -147,7 +146,7 @@ namespace Aa
     {
       glLinkProgram (m_id);
 
-      GLint okay;
+      GLint okay = 0;
       glGetProgramiv (m_id, GL_LINK_STATUS, &okay);
       if (! okay)
       {
@@ -161,7 +160,7 @@ namespace Aa
     {
       glValidateProgram (m_id);
 
-      GLint okay;
+      GLint okay = 0;
       glGetProgramiv (m_id, GL_VALIDATE_STATUS, &okay);
       if (! okay)
       {

@@ -7,7 +7,7 @@ namespace Aa
 {
   namespace GL
   {
-    class Watermark :
+    class AA_GL_API Watermark :
       public Aa::GL::Plugin
     {
       protected:

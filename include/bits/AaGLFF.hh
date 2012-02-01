@@ -13,7 +13,7 @@ namespace Aa
 // Aa::GL::GrabberFFmpeg ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    class GrabberFFmpeg : public Grabber
+    class AA_GL_API GrabberFFmpeg : public Grabber
     {
       protected:
         Aa::FFmpeg::Encoder * m_encoder;

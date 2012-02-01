@@ -1,3 +1,4 @@
+#include <bits/AaOpenGL.h>
 #include <bits/AaGrabber.h>
 #include <bits/AaGLFF.hh>
 
