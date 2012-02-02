@@ -2,7 +2,7 @@
 #define __AA_GL_PRIMITIVES__
 
 #include <vector>
-#include "AaGL"
+//#include "AaGL"
 
 namespace Aa
 {

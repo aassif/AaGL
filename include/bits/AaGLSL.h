@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <AaException>
-#include "AaGL"
+//#include "AaGL"
 
 namespace Aa
 {

@@ -2,6 +2,7 @@
 #define __AA_OPENGL__
 
 #include <GL/glew.h>
+#include <AaMath>
 
 #ifdef _WIN32
   #ifdef AaOpenGL_EXPORTS // Merci CMake :)

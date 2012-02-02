@@ -1,5 +1,5 @@
-#ifndef __AA_GL__
-#define __AA_GL__
+#ifndef __AA_GL_LIGHT__
+#define __AA_GL_LIGHT__
 
 //#include <GL/glew.h>
 //#include <AaMath>
@@ -22,5 +22,5 @@ namespace Aa
   } // namespace GL
 } // namespace Aa
 
-#endif // __AA_GL__
+#endif // __AA_GL_LIGHT__
 
