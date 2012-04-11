@@ -81,8 +81,8 @@ namespace Aa
 
       private:
         // Matrices.
-        Math::pR3 m_camera;
-        Math::pR3 m_target;
+        dvec3 m_camera;
+        dvec3 m_target;
         double m_m3d_view [16];
         double m_m3d_proj [16];
         // Motion mode.
@@ -108,16 +108,16 @@ namespace Aa
 
       public:
         // Constructor.
-        Scene (const Math::pR3 & camera = Math::pR3 (0.0, 0.0, 1.0),
-               const Math::pR3 & target = Math::pR3 (0.0, 0.0, 0.0));
+        Scene (const dvec3 & camera = vec (0.0, 0.0, 1.0),
+               const dvec3 & target = vec (0.0, 0.0, 0.0));
         // Destructor.
         ~Scene ();
 
         // Pseudo-trackball.
-        void setCamera (const Math::pR3 &);
-        const Math::pR3 & getCamera () const;
-        void setTarget (const Math::pR3 &);
-        const Math::pR3 & getTarget () const;
+        void setCamera (const dvec3 &);
+        const dvec3 & getCamera () const;
+        void setTarget (const dvec3 &);
+        const dvec3 & getTarget () const;
         void setMotionMode (int);
         void motion (int dx, int dy);
 

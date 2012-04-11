@@ -69,11 +69,11 @@ namespace Aa
       if (! backup_glBlend)      glDisable (GL_BLEND);
     }
 
-    void Primitives::Box (const Math::Box & b)
+    void Primitives::Box (const dbox3 & b)
     {
       glPushMatrix ();
-      Translate (b.pos ());
-      Scale     (b.dim ());
+      GL::Translate (b.pos ());
+      GL::Scale     (b.dim ());
       Primitives::Box ();
       glPopMatrix ();
     }
@@ -149,10 +149,10 @@ namespace Aa
       //glutSolidSphere (r, nSlices, nStacks);
     }
 
-    void Primitives::Sphere (const Math::pR3 & c, double r)
+    void Primitives::Sphere (const dvec3 & c, double r)
     {
       glPushMatrix ();
-      Translate (c);
+      GL::Translate (c);
       Primitives::Sphere (r);
       glPopMatrix ();
     }
@@ -202,11 +202,11 @@ namespace Aa
       //gluDeleteQuadric (cylinder);
     }
 
-    void Primitives::Cone (const Math::pR3 & p1, double r1, const Math::pR3 & p2, double r2, bool closed)
+    void Primitives::Cone (const dvec3 & p1, double r1, const dvec3 & p2, double r2, bool closed)
     {
-      double dx = p2.x - p1.x;
-      double dy = p2.y - p1.y;
-      double dz = p2.z - p1.z;
+      double dx = p2[0] - p1[0];
+      double dy = p2[1] - p1[1];
+      double dz = p2[2] - p1[2];
       double h = sqrt (dx*dx + dy*dy + dz*dz);
       if (h > 0.0)
       {
@@ -215,7 +215,7 @@ namespace Aa
         double rx = -dy * dz;
         double ry = +dx * dz;
         glPushMatrix ();
-        Translate (p1);
+        GL::Translate (p1);
         glRotated (ax, rx, ry, 0.0);
         Primitives::Cone (h, r1, r2, closed);
         glPopMatrix();
@@ -227,7 +227,7 @@ namespace Aa
       Primitives::Cone (h, r, r, closed);
     }
 
-    void Primitives::Cylinder (const Math::pR3 & p1, const Math::pR3 & p2, double r, bool closed)
+    void Primitives::Cylinder (const dvec3 & p1, const dvec3 & p2, double r, bool closed)
     {
       Primitives::Cone (p1, r, p2, r, closed);
     }

@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <iterator>
 #include "AaGLSL"
 
 using namespace std;
@@ -54,18 +55,15 @@ namespace Aa
 // Aa::GL::Program /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    vector<string> Program::ReadSource (const string & path)
+    string Program::ReadSource (const string & path)
       throw (FileNotFound)
     {
       ifstream ifs (path.c_str ());
+
       if (! ifs.is_open ())
         throw FileNotFound (path);
 
-      vector<string> lines;
-      for (string line; getline (ifs, line);)
-        lines.push_back (line + '\n');
-
-      return lines;
+      return string (istreambuf_iterator<char> (ifs), istreambuf_iterator<char> ());
     }
 
     string Program::ShaderLog (GLuint shader)
@@ -74,7 +72,7 @@ namespace Aa
       glGetShaderiv (shader, GL_INFO_LOG_LENGTH, &n);
       GLchar * strLog = new GLchar [n];
       glGetShaderInfoLog (shader, n, NULL, strLog);
-      string log (strLog);
+      string log (strLog, n);
       delete[] strLog;
       return log;
     }
@@ -85,31 +83,19 @@ namespace Aa
       glGetProgramiv (program, GL_INFO_LOG_LENGTH, &n);
       GLchar * strLog = new GLchar [n];
       glGetProgramInfoLog (program, n, NULL, strLog);
-      string log (strLog);
+      string log (strLog, n);
       delete[] strLog;
       return log;
     }
 
-    GLuint Program::CreateShader (GLenum type, const string & path)
+    GLuint Program::CreateShader (GLenum type,
+                                  GLsizei count,
+                                  const GLchar ** buffers,
+                                  const GLint * lengths)
       throw (FileNotFound, ShaderException)
     {
       GLuint shader = glCreateShader (type);
-
-      cout << path << endl;
-      vector<string> source = ReadSource (path);
-      unsigned int n = source.size ();
-      //cout << "n = " << n << endl;
-      vector<const GLchar *> lines (n);
-      vector<GLint> lengths (n);
-      for (unsigned int i = 0; i < n; ++i)
-      {
-        const string line = source [i];
-        lines   [i] = line.c_str ();
-        lengths [i] = line.size ();
-      }
-
-      glShaderSource (shader, n, &(lines[0]), &(lengths[0]));
-
+      glShaderSource (shader, count, buffers, lengths);
       glCompileShader (shader);
 
       GLint okay = 0;
@@ -121,6 +107,14 @@ namespace Aa
       }
 
       return shader;
+    }
+
+    GLuint Program::CreateShader (GLenum type,
+                                  const GLchar * buffer,
+                                  GLint length)
+      throw (FileNotFound, ShaderException)
+    {
+      return CreateShader (type, 1, &buffer, &length);
     }
 
     Program::Program () :
@@ -137,7 +131,8 @@ namespace Aa
     void Program::attach (GLenum type, const string & path)
       throw (FileNotFound, ShaderException)
     {
-      GLuint shader = CreateShader (type, path);
+      string source = ReadSource (path);
+      GLuint shader = CreateShader (type, source.c_str (), source.size ());
       glAttachShader (m_id, shader);
       glDeleteShader (shader);
     }
@@ -170,7 +165,7 @@ namespace Aa
       }
     }
 
-    GLint Program::location (const char * name) const
+    GLint Program::location (const GLchar * name) const
     {
       return glGetUniformLocation (m_id, name);
     }

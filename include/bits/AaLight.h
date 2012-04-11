@@ -3,6 +3,7 @@
 
 //#include <GL/glew.h>
 //#include <AaMath>
+#include <AaColor>
 
 namespace Aa
 {
@@ -14,9 +15,9 @@ namespace Aa
     {
       public:
         // glColor.
-        static void Color (const float [4]);
+        static void Color (const vec4 &);
         // glMaterial.
-        static void Material (const float [4]);
+        static void Material (const vec4 &);
     };
 
   } // namespace GL

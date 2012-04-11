@@ -1,4 +1,9 @@
-GPP=            g++ -fPIC -ggdb3 -W -Wall -pedantic -O3
+GCC_DEFAULT=            g++ -fPIC -W -Wall -pedantic
+GCC_DEBUG=              $(GCC_DEFAULT) -O0 -ggdb3 -pg# -DDEBUG# -DCHECK 
+GCC_RELEASE=            $(GCC_DEFAULT) -O3 -ggdb3
+#GCC=                    $(GCC_DEBUG)
+GCC=                    $(GCC_RELEASE)
+
 
 V_AaGL=          AaGL-0.0.1
 H_AaGL=          include
@@ -25,10 +30,10 @@ lib/libAaGL.a:   $(OBJ)
 								ar rcs lib/libAaGL.a $(OBJ)
 
 lib/libAaGL.so:  make.depend $(OBJ)
-								$(GPP) -shared $(OBJ) -o lib/libAaGL.so
+								$(GCC) -shared $(OBJ) -o lib/libAaGL.so
 
 %.o:            %.cc
-								$(GPP) -c $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $< -o $@
+								$(GCC) -c $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $< -o $@
 
 # Ménage #
 
@@ -48,10 +53,10 @@ archive:        clean
 # Dépendances #
 
 dep:
-								$(GPP) -MM $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $(SRC) >make.depend
+								$(GCC) -MM $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $(SRC) >make.depend
 
 make.depend:    $(HDR) $(SRC)
-								$(GPP) -MM $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $(SRC) >make.depend
+								$(GCC) -MM $(I_AaGL) $(I_AaToolkit) $(I_GLEW) $(SRC) >make.depend
 
 include make.depend
 

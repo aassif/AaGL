@@ -134,7 +134,7 @@ namespace Aa
 // Aa::GL::Scene ///////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    GLuint Scene::PickId (const void * p)
+    GLuint Scene::PickId (const void * /* p */)
     {
 #if 1
       return 0;
@@ -143,7 +143,7 @@ namespace Aa
 #endif
     }
 
-    void * Scene::PickPtr (GLuint id)
+    void * Scene::PickPtr (GLuint /* id */)
     {
 #if 1
       return NULL;
@@ -152,7 +152,7 @@ namespace Aa
 #endif
     }
 
-    Scene::Scene (const Math::pR3 & c, const Math::pR3 & t) :
+    Scene::Scene (const dvec3 & c, const dvec3 & t) :
       m_camera (c), m_target (t),
       m_m3d_view (), m_m3d_proj (),
       m_motion (MOTION_NONE),
@@ -200,30 +200,30 @@ namespace Aa
       glMatrixMode (GL_MODELVIEW);
       glLoadIdentity ();
 #ifdef AA_GL_UPSIDE_DOWN
-      gluLookAt (m_camera.x, m_camera.y, m_camera.z, m_target.x, m_target.y, m_target.z, 0, -1, 0);
+      gluLookAt (m_camera[0], m_camera[1], m_camera[2], m_target[0], m_target[1], m_target[2], 0, -1, 0);
 #else
-      gluLookAt (m_camera.x, m_camera.y, m_camera.z, m_target.x, m_target.y, m_target.z, 0, 1, 0);
+      gluLookAt (m_camera[0], m_camera[1], m_camera[2], m_target[0], m_target[1], m_target[2], 0, 1, 0);
 #endif
       glGetDoublev (GL_MODELVIEW_MATRIX, m_m3d_view);
     }
 
     // Pseudo-trackball.
 
-    void Scene::setCamera (const Math::pR3 & p)
+    void Scene::setCamera (const dvec3 & p)
     {
       m_camera = p;
       this->updateViewMatrix ();
     }
 
-    const Math::pR3 & Scene::getCamera () const {return m_camera;}
+    const dvec3 & Scene::getCamera () const {return m_camera;}
 
-    void Scene::setTarget (const Math::pR3 & p)
+    void Scene::setTarget (const dvec3 & p)
     {
       m_target = p;
       this->updateViewMatrix ();
     }
 
-    const Math::pR3 & Scene::getTarget () const {return m_target;}
+    const dvec3 & Scene::getTarget () const {return m_target;}
 
     void Scene::setMotionMode (int mode)
     {
@@ -232,42 +232,44 @@ namespace Aa
 
     void Scene::targetRotate (int dx, int dy)
     {
-      Math::vR3 v (m_camera, m_target);
-      double theta, phi, rho; Math::ToPolar (Math::pR3 (v.x, v.y, v.z), &theta, &phi, &rho);
+      dvec3 polar = Math::ToPolar (m_target - m_camera);
+      double theta = polar [0];
+      double phi   = polar [1];
+      double rho   = polar [2];
 
       if (dx != 0) theta -= ((double) dx * M_PI / 180.0);
       if (dy != 0) phi   += ((double) dy * M_PI / 180.0);
       if (phi > M_PI_2 - 0.01) phi = M_PI_2 - 0.01;
       else if (phi < -M_PI_2 + 0.01) phi = -M_PI_2 + 0.01;
 
-      Math::pR3 p = Math::FromPolar (theta, phi, rho); v = Math::vR3 (p.x, p.y, p.z);
-      m_target = m_camera + v;
+      m_target = m_camera + Math::FromPolar (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
 
     void Scene::cameraRotate (int dx, int dy)
     {
-      Math::vR3 v (m_target, m_camera);
-      double theta, phi, rho; Math::ToPolar (Math::pR3 (v.x, v.y, v.z), &theta, &phi, &rho);
+      dvec3 polar = Math::ToPolar (m_camera - m_target);
+      double theta = polar [0];
+      double phi   = polar [1];
+      double rho   = polar [2];
 
       if (dx != 0) theta -= ((double) dx * M_PI / 180.0);
       if (dy != 0) phi   -= ((double) dy * M_PI / 180.0);
       if (phi > M_PI_2 - 0.01) phi = M_PI_2 - 0.01;
       else if (phi < -M_PI_2 + 0.01) phi = -M_PI_2 + 0.01;
 
-      Math::pR3 p = Math::FromPolar (theta, phi, rho); v = Math::vR3 (p.x, p.y, p.z);
-      m_camera = m_target + v;
+      m_camera = m_target + Math::FromPolar (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
 
     void Scene::cameraStrafe (int dx, int dy)
     {
-      Math::vR3 v (dx, dy, 0.0);
-      Math::vR3 strafe (v % Math::vR3 (m_m3d_view [0], m_m3d_view [1], m_m3d_view  [2]),
-                        v % Math::vR3 (m_m3d_view [4], m_m3d_view [5], m_m3d_view  [6]),
-                        v % Math::vR3 (m_m3d_view [8], m_m3d_view [9], m_m3d_view [10]));
+      dvec3 v = vec<double> (dx, dy, 0.0);
+      dvec3 strafe = vec (DotProd (v, vec (m_m3d_view [0], m_m3d_view [1], m_m3d_view  [2])),
+                          DotProd (v, vec (m_m3d_view [4], m_m3d_view [5], m_m3d_view  [6])),
+                          DotProd (v, vec (m_m3d_view [8], m_m3d_view [9], m_m3d_view [10])));
       m_camera += strafe;
       m_target += strafe;
       this->updateViewMatrix ();
@@ -276,14 +278,15 @@ namespace Aa
 
     void Scene::cameraForward (int dy)
     {
-      Math::vR3 v (m_target, m_camera);
-      double theta, phi, rho; Math::ToPolar (Math::pR3 (v.x, v.y, v.z), &theta, &phi, &rho);
+      dvec3 polar = Math::ToPolar (m_camera - m_target);
+      double theta = polar [0];
+      double phi   = polar [1];
+      double rho   = polar [2];
 
       if (dy != 0) rho *= std::pow (1.1, dy);
       //if (rho < 0.01) rho = 0.01;
 
-      Math::pR3 p = Math::FromPolar (theta, phi, rho); v = Math::vR3 (p.x, p.y, p.z);
-      m_camera = m_target + v;
+      m_camera = m_target + Math::FromPolar (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
