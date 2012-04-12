@@ -211,7 +211,7 @@ namespace Aa
       const ivec2 & pos = v.pos ();
       const ivec2 & dim = v.dim ();
       GLint viewport [4] = {pos[0], pos[1], dim[0], dim[1]};
-      return UnProject (object, &(modelview[0][0]), &(projection[0][0]), viewport);
+      return UnProject (window, &(modelview[0][0]), &(projection[0][0]), viewport);
     }
 
   } // namespace GL
