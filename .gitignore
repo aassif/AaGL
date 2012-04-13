@@ -1,0 +1,13 @@
+bin
+lib
+Win32
+CMakeFiles
+*.dir
+CMakeCache.txt
+*.cmake
+ipch
+*vcx*
+*.sdf
+*.sln
+*.suo
+*~
