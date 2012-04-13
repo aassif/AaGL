@@ -6,6 +6,8 @@
 #include <AaMath>
 //#include <AaBox> // FIXME
 
+#define AA_GL_INLINE inline
+
 #ifdef _WIN32
   #ifdef AaOpenGL_EXPORTS // Merci CMake :)
     #define AA_GL_API    __declspec(dllexport)
@@ -29,7 +31,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_VERTEX(T, m, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void Vertex (const V<T, m> & v) {F (&(v[0]));}
 
     AA_GL_VERTEX (GLshort,  2, glVertex2sv)
@@ -52,7 +54,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_NORMAL(T, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void Normal (const V<T, 3> & n) {F (&(n[0]));}
 
     AA_GL_NORMAL (GLbyte,   glNormal3bv)
@@ -66,7 +68,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_TEXCOORD1(T, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void TexCoord (T t) {F (t);}
 
     AA_GL_TEXCOORD1 (GLshort,  glTexCoord1s)
@@ -75,7 +77,7 @@ namespace Aa
     AA_GL_TEXCOORD1 (GLdouble, glTexCoord1d)
 
 #define AA_GL_TEXCOORD(T, m, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void TexCoord (const V<T, m> & v) {F (&(v[0]));}
 
     AA_GL_TEXCOORD (GLshort,  2, glTexCoord2sv)
@@ -98,7 +100,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_TRANSLATE(T, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void Translate (const V<T, 3> & v) {F (v[0], v[1], v[2]);}
 
     AA_GL_TRANSLATE (GLfloat,  glTranslatef)
@@ -109,7 +111,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_SCALE(T, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void Scale (const V<T, 3> & v) {F (v[0], v[1], v[2]);}
 
     AA_GL_SCALE (GLfloat,  glScalef)
@@ -120,7 +122,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
 #define AA_GL_ROTATE(T, F) \
-    AA_GL_API inline \
+    AA_GL_INLINE \
     void Rotate (const T & a, const V<T, 3> & v) {F (a, v[0], v[1], v[2]);}
 
     AA_GL_ROTATE (GLfloat,  glRotatef)
@@ -130,7 +132,7 @@ namespace Aa
 // Project /////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 Project (const dvec3    & object,
                    const GLdouble * modelview,
                    const GLdouble * projection,
@@ -143,7 +145,7 @@ namespace Aa
       return p;
     }
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 Project (const dvec3 & object)
     {
       GLdouble modelview [16];
@@ -158,7 +160,7 @@ namespace Aa
       return Project (object, modelview, projection, viewport);
     }
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 Project (const dvec3 & object,
                    const dmat4 & modelview,
                    const dmat4 & projection,
@@ -174,7 +176,7 @@ namespace Aa
 // UnProject ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 UnProject (const dvec3    & window,
                      const GLdouble * modelview,
                      const GLdouble * projection,
@@ -187,7 +189,7 @@ namespace Aa
       return p;
     }
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 UnProject (const dvec3 & window)
     {
       GLdouble modelview [16];
@@ -202,7 +204,7 @@ namespace Aa
       return UnProject (window, modelview, projection, viewport);
     }
 
-    AA_GL_API inline
+    AA_GL_INLINE
     dvec3 UnProject (const dvec3 & window,
                      const dmat4 & modelview,
                      const dmat4 & projection,

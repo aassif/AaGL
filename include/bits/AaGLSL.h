@@ -9,7 +9,7 @@ namespace Aa
 {
   namespace GL
   {
-    class ShaderException : public std::runtime_error
+    class AA_GL_API ShaderException : public std::runtime_error
     {
       public:
         static ShaderException Compilation (const std::string & log);
@@ -22,7 +22,7 @@ namespace Aa
         virtual ~ShaderException () throw ();
     };
 
-    class Program
+    class AA_GL_API Program
     {
       private:
         GLuint m_id;
