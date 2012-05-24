@@ -28,27 +28,27 @@ namespace Aa
         GLuint m_id;
         
       public:
-        inline static
+        /*inline*/ static
         std::string ReadSource (const std::string & path)
           throw (FileNotFound);
 
-        inline static
+        /*inline*/ static
         GLuint CreateShader (GLenum type,
                              GLsizei count,
                              const GLchar ** buffers,
                              const GLint * lengths)
           throw (FileNotFound, ShaderException);
 
-        inline static
+        /*inline*/ static
         GLuint CreateShader (GLenum type,
                              const GLchar * buffer,
                              GLint length)
           throw (FileNotFound, ShaderException);
 
-        inline static
+        /*inline*/ static
         std::string ShaderLog (GLuint shader);
 
-        inline static
+        /*inline*/ static
         std::string ProgramLog (GLuint program);
 
       public:
@@ -85,7 +85,7 @@ namespace Aa
 
         // Shader attachment.
         void attach (GLenum type,
-                     const std::string & path)
+                     const std::string & source)
           throw (FileNotFound, ShaderException);
 
         // Validation, linkage and usage.

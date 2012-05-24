@@ -20,8 +20,8 @@ namespace Aa
     void Primitives::Box ()
     {
       // Blending.
-      GLboolean backup_glBlend = glIsEnabled (GL_BLEND);
-      glEnable (GL_BLEND);
+      //GLboolean backup_glBlend = glIsEnabled (GL_BLEND);
+      //glEnable (GL_BLEND);
       // Smooth lines.
       //GLboolean backup_glLineSmooth = glIsEnabled (GL_LINE_SMOOTH);
       //glEnable (GL_LINE_SMOOTH);
@@ -31,9 +31,9 @@ namespace Aa
       //glGetBooleanv (GL_DEPTH_WRITEMASK, &backup_glDepthMask);
       //glDepthMask (GL_FALSE);
       // Polyong mode.
-      GLint backup_glPolygonMode [2];
-      glGetIntegerv (GL_POLYGON_MODE, backup_glPolygonMode);
-      glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
+      //GLint backup_glPolygonMode [2];
+      //glGetIntegerv (GL_POLYGON_MODE, backup_glPolygonMode);
+      //glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
 
       // Bounding box vertices.
       static const GLdouble BOX_VERTICES [] = {
@@ -62,11 +62,11 @@ namespace Aa
       glDrawElements (GL_QUADS, 24, GL_UNSIGNED_BYTE, BOX_FACES);
       glDisableClientState (GL_VERTEX_ARRAY);
 
-      glPolygonMode (GL_FRONT, backup_glPolygonMode [0]);
-      glPolygonMode (GL_BACK,  backup_glPolygonMode [1]);
+      //glPolygonMode (GL_FRONT, backup_glPolygonMode [0]);
+      //glPolygonMode (GL_BACK,  backup_glPolygonMode [1]);
       //if (backup_glDepthMask) glDepthMask (GL_TRUE);
       //if (! backup_glLineSmooth) glDisable (GL_LINE_SMOOTH);
-      if (! backup_glBlend)      glDisable (GL_BLEND);
+      //if (! backup_glBlend)      glDisable (GL_BLEND);
     }
 
     void Primitives::Box (const dbox3 & b)

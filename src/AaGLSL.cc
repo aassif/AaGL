@@ -128,10 +128,10 @@ namespace Aa
       glDeleteProgram (m_id);
     }
 
-    void Program::attach (GLenum type, const string & path)
+    void Program::attach (GLenum type, const string & source)
       throw (FileNotFound, ShaderException)
     {
-      string source = ReadSource (path);
+      //string source = ReadSource (path);
       GLuint shader = CreateShader (type, source.c_str (), source.size ());
       glAttachShader (m_id, shader);
       glDeleteShader (shader);
