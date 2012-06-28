@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 # Project name.
 project(AaOpenGL C CXX)
+
 set(CMAKE_CXX_FLAGS "/EHa")
 
 # Module directory.
@@ -18,7 +19,9 @@ find_package(GLEW REQUIRED)
 
 # AaToolkit dependency
 SET(AATOOLKIT_DIR $ENV{TLR_DEV}/aassif-toolkit)
+
 find_package(AaToolkit REQUIRED)
+find_package(AaToolkit-static REQUIRED)
 
 # Include directoires.
 include_directories(
@@ -81,10 +84,9 @@ set_target_properties(AaOpenGL
   #ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
   RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/bin/debug
   RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin/release
-  LIBRARY_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
-  LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
   ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
   ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
+  COMPILE_DEFINITIONS AA_OPENGL_BUILD_SHARED
   DEBUG_POSTFIX d
 )
 
@@ -93,5 +95,30 @@ target_link_libraries(AaOpenGL
   ${OPENGL_LIBRARY}
   ${GLEW_LIBRARY}
   ${AATOOLKIT_LIBRARY}
+)
+
+# Target generation.
+add_library(AaOpenGL-static
+  STATIC
+  ${PROJECT_HDR}
+  ${PROJECT_SRC}
+)
+
+# Output paths.
+set_target_properties(AaOpenGL-static
+  PROPERTIES
+  #RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+  #LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+  #ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+  ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
+  ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
+  DEBUG_POSTFIX d
+)
+
+# Target dependencies.
+target_link_libraries(AaOpenGL-static
+  ${OPENGL_LIBRARY}
+  ${GLEW_LIBRARY}
+  ${AATOOLKIT_STATIC_LIBRARY}
 )
 
