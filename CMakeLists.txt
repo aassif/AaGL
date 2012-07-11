@@ -31,7 +31,6 @@ include_directories(
 
 # Include files.
 set(PROJECT_HDR
-  include/AaExtensions
   include/AaGLFF
   include/AaGLSL
   include/AaGlutMenu
@@ -43,7 +42,6 @@ set(PROJECT_HDR
   include/AaReferenceFrame
   include/AaScene
   include/bits/AaGL.h
-  include/bits/AaExtensions.h
   include/bits/AaGLFF.hh
   include/bits/AaGLSL.h
   include/bits/AaGlutMenu.hh
@@ -58,7 +56,6 @@ set(PROJECT_HDR
 
 # Source files.
 set(PROJECT_SRC
-  src/AaExtensions.cc
   src/AaGLSL.cc
   src/AaGrabber.cc
   src/AaLight.cc
