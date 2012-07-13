@@ -34,7 +34,6 @@ include_directories(
 
 # Include files.
 set(PROJECT_HDR
-  include/AaExtensions
   include/AaGLFF
   include/AaGLSL
   include/AaGlutMenu
@@ -46,7 +45,6 @@ set(PROJECT_HDR
   include/AaReferenceFrame
   include/AaScene
   include/bits/AaGL.h
-  include/bits/AaExtensions.h
   include/bits/AaGLFF.hh
   include/bits/AaGLSL.h
   include/bits/AaGlutMenu.hh
@@ -61,7 +59,6 @@ set(PROJECT_HDR
 
 # Source files.
 set(PROJECT_SRC
-  src/AaExtensions.cc
   src/AaGLSL.cc
   src/AaGrabber.cc
   src/AaLight.cc
@@ -86,7 +83,7 @@ set_target_properties(AaOpenGL
   RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin/release
   ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
   ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
-  COMPILE_DEFINITIONS AA_OPENGL_BUILD_SHARED
+  COMPILE_DEFINITIONS AA_GL_BUILD_SHARED
   DEBUG_POSTFIX d
 )
 

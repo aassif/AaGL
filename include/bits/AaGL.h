@@ -8,7 +8,7 @@
 
 #define AA_GL_INLINE inline
 
-#if defined( _WIN32 ) && defined( AA_OPENGL_BUILD_SHARED )
+#if defined (_WIN32) && defined (AA_GL_BUILD_SHARED)
   #ifdef AaOpenGL_EXPORTS // Merci CMake :)
     #define AA_GL_API    __declspec(dllexport)
     #define AA_GL_EXTERN
