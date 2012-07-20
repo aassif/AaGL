@@ -7,18 +7,18 @@ project(AaOpenGL C CXX)
 set(CMAKE_CXX_FLAGS "/EHa")
 
 # Module directory.
-set(CMAKE_MODULE_PATH $ENV{TLR_DEV}/cmake-modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake-modules)
 STRING(REGEX REPLACE "\\\\" "/" CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
 
 # OpenGL dependency.
 find_package(OpenGL REQUIRED) # GLEW
 
 # glew dependency
-set(GLEW_DIR $ENV{TLR_DEV}/glew-1.7.0)
+set(GLEW_DIR ${PROJECT_SOURCE_DIR}/../glew-1.7.0)
 find_package(GLEW REQUIRED)
 
 # AaToolkit dependency
-SET(AATOOLKIT_DIR $ENV{TLR_DEV}/aassif-toolkit)
+SET(AATOOLKIT_DIR ${PROJECT_SOURCE_DIR}/../aassif-toolkit)
 
 find_package(AaToolkit REQUIRED)
 find_package(AaToolkit-static REQUIRED)
