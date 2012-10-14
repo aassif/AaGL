@@ -11,7 +11,7 @@ S_AaGL=          src
 D_AaGL=          doc
 I_AaGL=          -I$(H_AaGL)
 
-P_GLEW=         $(HOME)/3rdPartyLibs/glew-1.5.8
+P_GLEW=         $(HOME)/3rdPartyLibs/glew-1.7.0
 I_GLEW=         -I$(P_GLEW)/include
 
 P_AaToolkit=		$(HOME)/wrk/toolkit

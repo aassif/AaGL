@@ -33,6 +33,12 @@ namespace Aa
           throw (FileNotFound);
 
         /*inline*/ static
+        void SetString (const std::string & name, const std::string & source);
+
+        /*inline*/ static
+        std::string String (const std::string & name);
+
+        /*inline*/ static
         GLuint CreateShader (GLenum type,
                              GLsizei count,
                              const GLchar ** buffers,
