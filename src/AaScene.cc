@@ -4,7 +4,7 @@
 #include <iomanip>
 //#include <GL/glew.h>
 //#include <GL/glut.h>
-#include <AaTimer>
+//#include <AaTimer>
 #include "AaScene"
 
 //#define AA_GL_UPSIDE_DOWN
@@ -377,9 +377,11 @@ namespace Aa
       // Smooth or flat.
       glShadeModel (GL_SMOOTH);
 
+#if 0
       static Aa::Timer timer = Aa::Timer (true);
       static int nFrames = 0;
       static string msgFps = "N/A";
+#endif
 
       for (list<Plugin *>::const_iterator
              i = m_plugins.begin (), e = m_plugins.end (); i != e;)
@@ -417,6 +419,7 @@ namespace Aa
       
       //glutSwapBuffers ();
 
+#if 0
       ++nFrames;
       double seconds = timer.get ();
       if (seconds > 1.0)
@@ -430,6 +433,7 @@ namespace Aa
         timer.start ();
         nFrames = 0;
       }
+#endif
     }
 
     void Scene::glSelect (bool replace) const

@@ -66,6 +66,27 @@ namespace Aa
       return string (istreambuf_iterator<char> (ifs), istreambuf_iterator<char> ());
     }
 
+    void Program::SetString (const string & name, const string & source)
+    {
+      glNamedStringARB (GL_SHADER_INCLUDE_ARB, -1, name.c_str (), -1, source.c_str ());
+    }
+
+    std::string Program::String (const string & name)
+    {
+      const char * name_c_str = name.c_str ();
+
+      GLint length = 0;
+      glGetNamedStringivARB (-1, name_c_str, GL_NAMED_STRING_LENGTH_ARB, &length);
+
+      char * data = new char [length];
+      glGetNamedStringARB (-1, name_c_str, length, NULL, data);
+
+      string str (data, length);
+      delete[] data;
+
+      return str;
+    }
+
     string Program::ShaderLog (GLuint shader)
     {
       GLint n = 0;
