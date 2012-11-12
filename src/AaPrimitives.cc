@@ -36,15 +36,15 @@ namespace Aa
       //glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
 
       // Bounding box vertices.
-      static const GLdouble BOX_VERTICES [] = {
-        0.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        0.0, 1.0, 0.0,
-        1.0, 1.0, 0.0,
-        0.0, 0.0, 1.0,
-        1.0, 0.0, 1.0,
-        0.0, 1.0, 1.0,
-        1.0, 1.0, 1.0
+      static const GLfloat BOX_VERTICES [] = {
+        0, 0, 0,
+        1, 0, 0,
+        0, 1, 0,
+        1, 1, 0,
+        0, 0, 1,
+        1, 0, 1,
+        0, 1, 1,
+        1, 1, 1
       };
 
       // Bounding box faces.
@@ -69,7 +69,7 @@ namespace Aa
       //if (! backup_glBlend)      glDisable (GL_BLEND);
     }
 
-    void Primitives::Box (const dbox3 & b)
+    void Primitives::Box (const box3 & b)
     {
       glPushMatrix ();
       GL::Translate (b.pos ());
@@ -78,70 +78,71 @@ namespace Aa
       glPopMatrix ();
     }
 
-    const double Primitives::CONTOUR [][2] = {
-      {+1.000,  0.000},
-      {+0.966, +0.259},
-      {+0.866, +0.500},
-      {+0.707, +0.707},
-      {+0.500, +0.866},
-      {+0.259, +0.966},
-      { 0.000, +1.000},
-      {-0.259, +0.966},
-      {-0.500, +0.866},
-      {-0.707, +0.707},
-      {-0.866, +0.500},
-      {-0.966, +0.259},
-      {-1.000,  0.000},
-      {-0.966, -0.259},
-      {-0.866, -0.500},
-      {-0.707, -0.707},
-      {-0.500, -0.866},
-      {-0.259, -0.966},
-      { 0.000, -1.000},
-      {+0.259, -0.966},
-      {+0.500, -0.866},
-      {+0.707, -0.707},
-      {+0.866, -0.500},
-      {+0.966, -0.259},
-      {+1.000,  0.000}
+#if 0
+    const GLfloat Primitives::CONTOUR [][2] = {
+      {+1.000f,  0.000f},
+      {+0.966f, +0.259f},
+      {+0.866f, +0.500f},
+      {+0.707f, +0.707f},
+      {+0.500f, +0.866f},
+      {+0.259f, +0.966f},
+      { 0.000f, +1.000f},
+      {-0.259f, +0.966f},
+      {-0.500f, +0.866f},
+      {-0.707f, +0.707f},
+      {-0.866f, +0.500f},
+      {-0.966f, +0.259f},
+      {-1.000f,  0.000f},
+      {-0.966f, -0.259f},
+      {-0.866f, -0.500f},
+      {-0.707f, -0.707f},
+      {-0.500f, -0.866f},
+      {-0.259f, -0.966f},
+      { 0.000f, -1.000f},
+      {+0.259f, -0.966f},
+      {+0.500f, -0.866f},
+      {+0.707f, -0.707f},
+      {+0.866f, -0.500f},
+      {+0.966f, -0.259f},
+      {+1.000f,  0.000f}
     };
 
-    void Primitives::Disk (double r)
+    void Primitives::Disk (float r)
     {
       int nSlices = 24;
 
       glBegin (GL_TRIANGLE_FAN);
-      glNormal3d (0, 0, 1);
-      glVertex2d (0, 0);
+      glNormal3f (0, 0, 1);
+      glVertex2f (0, 0);
       for (int i = 0; i <= nSlices; ++i)
-        glVertex2d (CONTOUR[i][0] * r, CONTOUR[i][1] * r);
+        glVertex2f (CONTOUR[i][0] * r, CONTOUR[i][1] * r);
       glEnd ();
     }
 
-    void Primitives::Sphere (double r)
+    void Primitives::Sphere (float r)
     {
       int nSlices = 24;
       int nStacks = 12;
 
       for (int i = 0; i < nStacks; ++i)
       {
-        double cos_a1 = CONTOUR[i][0];
-        double sin_a1 = CONTOUR[i][1];
+        float cos_a1 = CONTOUR[i][0];
+        float sin_a1 = CONTOUR[i][1];
 
-        double cos_a2 = CONTOUR[i+1][0];
-        double sin_a2 = CONTOUR[i+1][1];
+        float cos_a2 = CONTOUR[i+1][0];
+        float sin_a2 = CONTOUR[i+1][1];
 
         glBegin (GL_QUAD_STRIP);
         for (int i = 0; i <= nSlices; ++i)
         {
-          double cos_b = CONTOUR[i][0];
-          double sin_b = CONTOUR[i][1];
+          float cos_b = CONTOUR[i][0];
+          float sin_b = CONTOUR[i][1];
           // Vertex i on 1st contour.
-          glNormal3d (    cos_b * sin_a1,     sin_b * sin_a1,     cos_a1);
-          glVertex3d (r * cos_b * sin_a1, r * sin_b * sin_a1, r * cos_a1);
+          glNormal3f (    cos_b * sin_a1,     sin_b * sin_a1,     cos_a1);
+          glVertex3f (r * cos_b * sin_a1, r * sin_b * sin_a1, r * cos_a1);
           // Vertex i on 2nd contour.
-          glNormal3d (    cos_b * sin_a2,     sin_b * sin_a2,     cos_a2);
-          glVertex3d (r * cos_b * sin_a2, r * sin_b * sin_a2, r * cos_a2);
+          glNormal3f (    cos_b * sin_a2,     sin_b * sin_a2,     cos_a2);
+          glVertex3f (r * cos_b * sin_a2, r * sin_b * sin_a2, r * cos_a2);
         }
         glEnd ();
       }
@@ -149,7 +150,7 @@ namespace Aa
       //glutSolidSphere (r, nSlices, nStacks);
     }
 
-    void Primitives::Sphere (const dvec3 & c, double r)
+    void Primitives::Sphere (const vec3 & c, float r)
     {
       glPushMatrix ();
       GL::Translate (c);
@@ -157,7 +158,7 @@ namespace Aa
       glPopMatrix ();
     }
 
-    void Primitives::Cone (double h, double r1, double r2, bool closed)
+    void Primitives::Cone (float h, float r1, float r2, bool closed)
     {
       //static GLUquadricObj * cylinder = NULL;
       //if (cylinder == NULL) cylinder = gluNewQuadric ();
@@ -167,7 +168,7 @@ namespace Aa
       if (closed)
       {
         glPushMatrix ();
-        glRotated (180.0, 1.0, 0.0, 0.0); // FIXME
+        glRotatef (180, 1, 0, 0); // FIXME
         //gluDisk (cylinder, 0, r1, 16, 1);
         Primitives::Disk (r1);
         glPopMatrix ();
@@ -176,24 +177,24 @@ namespace Aa
       //gluCylinder (cylinder, r1, r2, h, 16, 1);
 
       glBegin (GL_QUAD_STRIP);
-      double a = std::atan2 (h, r2 - r1);
-      double cos_a = std::cos (a);
-      double sin_a = std::sin (a);
+      float a = std::atan2 (h, r2 - r1);
+      float cos_a = std::cos (a);
+      float sin_a = std::sin (a);
       for (int i = 0; i <= nSlices; ++i)
       {
-        double b = (2.0 * M_PI * i) / nSlices;
-        double cos_b = std::cos (b); //CONTOUR[i][0];
-        double sin_b = std::sin (b); //CONTOUR[i][1];
-        glNormal3d (cos_b * sin_a, sin_b * sin_a, cos_a);
-        glVertex3d (cos_b * r2,    sin_b * r2,    h);
-        glVertex3d (cos_b * r1,    sin_b * r1,    0);
+        float b = (2.0f * M_PI * i) / nSlices;
+        float cos_b = std::cos (b); //CONTOUR[i][0];
+        float sin_b = std::sin (b); //CONTOUR[i][1];
+        glNormal3f (cos_b * sin_a, sin_b * sin_a, cos_a);
+        glVertex3f (cos_b * r2,    sin_b * r2,    h);
+        glVertex3f (cos_b * r1,    sin_b * r1,    0);
       }
       glEnd ();
 
       if (closed)
       {
         glPushMatrix ();
-        glTranslated (0.0, 0.0, h);
+        glTranslatef (0, 0, h);
         //gluDisk (cylinder, 0, r2, 16, 1);
         Primitives::Disk (r2);
         glPopMatrix ();
@@ -202,35 +203,36 @@ namespace Aa
       //gluDeleteQuadric (cylinder);
     }
 
-    void Primitives::Cone (const dvec3 & p1, double r1, const dvec3 & p2, double r2, bool closed)
+    void Primitives::Cone (const vec3 & p1, float r1, const vec3 & p2, float r2, bool closed)
     {
-      double dx = p2[0] - p1[0];
-      double dy = p2[1] - p1[1];
-      double dz = p2[2] - p1[2];
-      double h = sqrt (dx*dx + dy*dy + dz*dz);
-      if (h > 0.0)
+      float dx = p2[0] - p1[0];
+      float dy = p2[1] - p1[1];
+      float dz = p2[2] - p1[2];
+      float h = sqrt (dx*dx + dy*dy + dz*dz);
+      if (h > 0)
       {
-        double ax = 180.0 * acos (dz / h) / M_PI;
-        if (dz <= 0.0) ax = -ax;
-        double rx = -dy * dz;
-        double ry = +dx * dz;
+        float ax = 180 * acos (dz / h) / M_PI;
+        if (dz <= 0) ax = -ax;
+        float rx = -dy * dz;
+        float ry = +dx * dz;
         glPushMatrix ();
         GL::Translate (p1);
-        glRotated (ax, rx, ry, 0.0);
+        glRotatef (ax, rx, ry, 0);
         Primitives::Cone (h, r1, r2, closed);
         glPopMatrix();
       }
     }
 
-    void Primitives::Cylinder (double h, double r, bool closed)
+    void Primitives::Cylinder (float h, float r, bool closed)
     {
       Primitives::Cone (h, r, r, closed);
     }
 
-    void Primitives::Cylinder (const dvec3 & p1, const dvec3 & p2, double r, bool closed)
+    void Primitives::Cylinder (const vec3 & p1, const vec3 & p2, float r, bool closed)
     {
       Primitives::Cone (p1, r, p2, r, closed);
     }
+#endif
 
   } // namespace GL
 } // namespace Aa
