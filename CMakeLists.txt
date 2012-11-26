@@ -3,92 +3,112 @@ cmake_minimum_required(VERSION 2.8)
 
 # Project name.
 project(AaOpenGL C CXX)
+
 set(CMAKE_CXX_FLAGS "/EHa")
 
+if(CMAKE_GENERATOR MATCHES ".* Win64")
+    add_definitions(-DAA_GL_X64_LIBRARY)
+
+    set(ARCHITECTURE_DIR x64)
+
+    set(CMAKE_RELEASE_POSTFIX -x64)
+    
+    if(WIN32)
+        set(CMAKE_DEBUG_POSTFIX -x64d)
+    endif(WIN32)
+
+    if(APPLE)
+        set(CMAKE_DEBUG_POSTFIX -x64_debug)
+    endif(APPLE)
+else(CMAKE_GENERATOR MATCHES ".* Win64")
+    set(ARCHITECTURE_DIR .)
+
+    if(WIN32)
+        set(CMAKE_DEBUG_POSTFIX d)
+    endif(WIN32)
+
+    if(APPLE)
+        set(CMAKE_DEBUG_POSTFIX _debug)
+    endif(APPLE)
+endif(CMAKE_GENERATOR MATCHES ".* Win64")
+
 # Module directory.
-set(CMAKE_MODULE_PATH $ENV{TLR_DEV}/cmake-modules)
-STRING(REGEX REPLACE "\\\\" "/" CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake-modules")
+string(REGEX REPLACE "\\\\" "/" CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}")
 
 # OpenGL dependency.
 find_package(OpenGL REQUIRED) # GLEW
 
 # glew dependency
-set(GLEW_DIR $ENV{TLR_DEV}/glew-1.7.0)
+set(GLEW_DIR "${PROJECT_SOURCE_DIR}/../glew")
 find_package(GLEW REQUIRED)
 
 # AaToolkit dependency
-SET(AATOOLKIT_DIR $ENV{TLR_DEV}/aassif-toolkit)
+set(AATOOLKIT_DIR "${PROJECT_SOURCE_DIR}/../aassif-toolkit")
+
 find_package(AaToolkit REQUIRED)
+find_package(AaToolkit-static REQUIRED)
 
 # Include directoires.
 include_directories(
-  include
-  #include/bits
-  ${OPENGL_INCLUDE_DIR}
-  ${GLEW_INCLUDE_DIR}
-  ${AATOOLKIT_INCLUDE_DIR}
+    include
+    ${OPENGL_INCLUDE_DIR}
+    ${GLEW_INCLUDE_DIR}
+    ${AATOOLKIT_INCLUDE_DIR}
 )
 
 # Include files.
-set(PROJECT_HDR
-  include/AaGLFF
-  include/AaGLSL
-  include/AaGlutMenu
-  include/AaGlutText
-  include/AaGlutWatermark
-  include/AaGrabber
-  include/AaLight
-  include/AaPrimitives
-  include/AaReferenceFrame
-  include/AaScene
-  include/bits/AaGL.h
-  include/bits/AaGLFF.hh
-  include/bits/AaGLSL.h
-  include/bits/AaGlutMenu.hh
-  include/bits/AaGlutText.hh
-  include/bits/AaGlutWatermark.hh
-  include/bits/AaGrabber.h
-  include/bits/AaLight.h
-  include/bits/AaPrimitives.h
-  include/bits/AaReferenceFrame.hh
-  include/bits/AaScene.h
+file(GLOB HEADER_FILES
+    include/Aa*
+    include/bits/Aa*
 )
 
 # Source files.
-set(PROJECT_SRC
-  src/AaGLSL.cc
-  src/AaGrabber.cc
-  src/AaLight.cc
-  src/AaPrimitives.cc
-  src/AaScene.cc
+file(GLOB SOURCE_FILES
+    src/Aa*
 )
 
 # Target generation.
 add_library(AaOpenGL
-  SHARED
-  ${PROJECT_HDR}
-  ${PROJECT_SRC}
+    SHARED
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
 )
 
 # Output paths.
 set_target_properties(AaOpenGL
-  PROPERTIES
-  #RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-  #LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-  #ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-  RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/bin/debug
-  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin/release
-  LIBRARY_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
-  LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
-  ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib/debug
-  ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib/release
-  DEBUG_POSTFIX d
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_SOURCE_DIR}/bin/debug/${ARCHITECTURE_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/bin/release/${ARCHITECTURE_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_SOURCE_DIR}/lib/debug/${ARCHITECTURE_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/lib/release/${ARCHITECTURE_DIR}"
+    COMPILE_DEFINITIONS AA_GL_BUILD_SHARED
 )
 
 # Target dependencies.
 target_link_libraries(AaOpenGL
-  ${OPENGL_LIBRARY}
-  ${GLEW_LIBRARY}
-  ${AATOOLKIT_LIBRARY}
+    ${OPENGL_LIBRARY}
+    ${GLEW_LIBRARY}
+    ${AATOOLKIT_LIBRARY}
 )
 
+# Target generation.
+add_library(AaOpenGL-static
+    STATIC
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
+)
+
+# Output paths.
+set_target_properties(AaOpenGL-static
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${PROJECT_SOURCE_DIR}/lib/debug/${ARCHITECTURE_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/lib/release/${ARCHITECTURE_DIR}"
+)
+
+# Target dependencies.
+target_link_libraries(AaOpenGL-static
+    ${OPENGL_LIBRARY}
+    ${GLEW_LIBRARY}
+    ${AATOOLKIT_STATIC_LIBRARY}
+)
