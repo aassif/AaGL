@@ -16,26 +16,26 @@ namespace Aa
     class AA_GL_API Primitives
     {
       private:
-        static const double CONTOUR [][2];
+        static const float CONTOUR [][2];
       public:
         // Unit box.
         static void Box ();
         // A custom box.
-        static void Box (const dbox3 &);
+        static void Box (const box3 &);
         // A disk at (0, 0, 0) winth radius r on the z plane.
-        static void Disk (double r);
+        //static void Disk (float r);
         // A sphere at (0, 0, 0) with radius r.
-        static void Sphere (double r);
+        //static void Sphere (float r);
         // A sphere at c with radius r.
-        static void Sphere (const dvec3 & c, double r);
+        //static void Sphere (const vec3 & c, float r);
         // A cone with height h and radii r1 and r2.
-        static void Cone (double h, double r1, double r2, bool closed = false);
+        //static void Cone (float h, float r1, float r2, bool closed = false);
         // A cone between 2 points with radii r1 and r2.
-        static void Cone (const dvec3 & p1, double r1, const dvec3 & p2, double r2, bool closed = false);
+        //static void Cone (const vec3 & p1, float r1, const vec3 & p2, float r2, bool closed = false);
         // A cylinder with height h and radius r.
-        static void Cylinder (double h, double r, bool closed = false);
+        //static void Cylinder (float h, float r, bool closed = false);
         // A cylinder between 2 points with radius r.
-        static void Cylinder (const dvec3 & p1, const dvec3 & p2, double r, bool closed = false);
+        //static void Cylinder (const vec3 & p1, const vec3 & p2, float r, bool closed = false);
     };
 
   } // namespace GL
