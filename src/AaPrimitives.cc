@@ -58,7 +58,7 @@ namespace Aa
       };
 
       glEnableClientState (GL_VERTEX_ARRAY);
-      glVertexPointer (3, GL_DOUBLE, 0, BOX_VERTICES);
+      glVertexPointer (3, GL_FLOAT, 0, BOX_VERTICES);
       glDrawElements (GL_QUADS, 24, GL_UNSIGNED_BYTE, BOX_FACES);
       glDisableClientState (GL_VERTEX_ARRAY);
 
@@ -106,6 +106,7 @@ namespace Aa
       {+0.966f, -0.259f},
       {+1.000f,  0.000f}
     };
+#endif
 
     void Primitives::Disk (float r)
     {
@@ -115,7 +116,10 @@ namespace Aa
       glNormal3f (0, 0, 1);
       glVertex2f (0, 0);
       for (int i = 0; i <= nSlices; ++i)
-        glVertex2f (CONTOUR[i][0] * r, CONTOUR[i][1] * r);
+      {
+        float a = (2.0f * M_PI * i) / nSlices;
+        glVertex2f (r * std::cos (a), r * std::sin (a));
+      }
       glEnd ();
     }
 
@@ -126,17 +130,20 @@ namespace Aa
 
       for (int i = 0; i < nStacks; ++i)
       {
-        float cos_a1 = CONTOUR[i][0];
-        float sin_a1 = CONTOUR[i][1];
+        float a1 = (2.0f * M_PI * i) / nStacks;
+        float cos_a1 = std::cos (a1);
+        float sin_a1 = std::sin (a1);
 
-        float cos_a2 = CONTOUR[i+1][0];
-        float sin_a2 = CONTOUR[i+1][1];
+        float a2 = (2.0f * M_PI * (i+1)) / nStacks;
+        float cos_a2 = std::cos (a2);
+        float sin_a2 = std::sin (a2);
 
         glBegin (GL_QUAD_STRIP);
-        for (int i = 0; i <= nSlices; ++i)
+        for (int j = 0; j <= nSlices; ++j)
         {
-          float cos_b = CONTOUR[i][0];
-          float sin_b = CONTOUR[i][1];
+          float b = (2.0f * M_PI * j) / nSlices;
+          float cos_b = std::cos (b);
+          float sin_b = std::sin (b);
           // Vertex i on 1st contour.
           glNormal3f (    cos_b * sin_a1,     sin_b * sin_a1,     cos_a1);
           glVertex3f (r * cos_b * sin_a1, r * sin_b * sin_a1, r * cos_a1);
@@ -183,8 +190,8 @@ namespace Aa
       for (int i = 0; i <= nSlices; ++i)
       {
         float b = (2.0f * M_PI * i) / nSlices;
-        float cos_b = std::cos (b); //CONTOUR[i][0];
-        float sin_b = std::sin (b); //CONTOUR[i][1];
+        float cos_b = std::cos (b);
+        float sin_b = std::sin (b);
         glNormal3f (cos_b * sin_a, sin_b * sin_a, cos_a);
         glVertex3f (cos_b * r2,    sin_b * r2,    h);
         glVertex3f (cos_b * r1,    sin_b * r1,    0);
@@ -232,7 +239,6 @@ namespace Aa
     {
       Primitives::Cone (p1, r, p2, r, closed);
     }
-#endif
 
   } // namespace GL
 } // namespace Aa
