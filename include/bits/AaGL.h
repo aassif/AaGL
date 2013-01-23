@@ -3,8 +3,7 @@
 
 #include <GL/glew.h>
 #include <AaMatrix>
-#include <AaMath>
-//#include <AaBox> // FIXME
+#include <AaBox>
 
 #define AA_GL_INLINE inline
 

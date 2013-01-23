@@ -6,7 +6,7 @@
 #include <vector>
 #include <list>
 #include <GL/glew.h>
-#include <AaMath>
+//#include <AaMath>
 
 namespace Aa
 {
