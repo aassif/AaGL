@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 # Project name.
 project(AaOpenGL C CXX)
 
+include("$ENV{DEVEL_PATH}/cmake/cmake-paths.txt")
+
 set(CMAKE_CXX_FLAGS "/EHa")
 
 if(CMAKE_GENERATOR MATCHES ".* Win64")
@@ -32,22 +34,15 @@ else(CMAKE_GENERATOR MATCHES ".* Win64")
     endif(APPLE)
 endif(CMAKE_GENERATOR MATCHES ".* Win64")
 
-# Module directory.
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake-modules")
-string(REGEX REPLACE "\\\\" "/" CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}")
 
 # OpenGL dependency.
 find_package(OpenGL REQUIRED) # GLEW
 
 # glew dependency
-set(GLEW_DIR "${PROJECT_SOURCE_DIR}/../glew")
 find_package(GLEW REQUIRED)
 
 # AaToolkit dependency
-set(AATOOLKIT_DIR "${PROJECT_SOURCE_DIR}/../aassif-toolkit")
-
 find_package(AaToolkit REQUIRED)
-find_package(AaToolkit-static REQUIRED)
 
 # Include directoires.
 include_directories(
@@ -89,7 +84,6 @@ set_target_properties(AaOpenGL
 target_link_libraries(AaOpenGL
     ${OPENGL_LIBRARY}
     ${GLEW_LIBRARY}
-    ${AATOOLKIT_LIBRARY}
 )
 
 # Target generation.
@@ -110,5 +104,4 @@ set_target_properties(AaOpenGL-static
 target_link_libraries(AaOpenGL-static
     ${OPENGL_LIBRARY}
     ${GLEW_LIBRARY}
-    ${AATOOLKIT_STATIC_LIBRARY}
 )
