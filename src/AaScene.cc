@@ -5,6 +5,7 @@
 //#include <GL/glew.h>
 //#include <GL/glut.h>
 //#include <AaTimer>
+#include <AaPolar>
 #include "AaScene"
 
 //#define AA_GL_UPSIDE_DOWN
@@ -232,7 +233,7 @@ namespace Aa
 
     void Scene::targetRotate (int dx, int dy)
     {
-      dvec3 polar = Math::ToPolar (m_target - m_camera);
+      dvec3 polar = cartesian_to_polar (m_target - m_camera);
       double theta = polar [0];
       double phi   = polar [1];
       double rho   = polar [2];
@@ -242,14 +243,14 @@ namespace Aa
       if (phi > M_PI_2 - 0.01) phi = M_PI_2 - 0.01;
       else if (phi < -M_PI_2 + 0.01) phi = -M_PI_2 + 0.01;
 
-      m_target = m_camera + Math::FromPolar (vec (theta, phi, rho));
+      m_target = m_camera + polar_to_cartesian (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
 
     void Scene::cameraRotate (int dx, int dy)
     {
-      dvec3 polar = Math::ToPolar (m_camera - m_target);
+      dvec3 polar = cartesian_to_polar (m_camera - m_target);
       double theta = polar [0];
       double phi   = polar [1];
       double rho   = polar [2];
@@ -259,7 +260,7 @@ namespace Aa
       if (phi > M_PI_2 - 0.01) phi = M_PI_2 - 0.01;
       else if (phi < -M_PI_2 + 0.01) phi = -M_PI_2 + 0.01;
 
-      m_camera = m_target + Math::FromPolar (vec (theta, phi, rho));
+      m_camera = m_target + polar_to_cartesian (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
@@ -278,7 +279,7 @@ namespace Aa
 
     void Scene::cameraForward (int dy)
     {
-      dvec3 polar = Math::ToPolar (m_camera - m_target);
+      dvec3 polar = cartesian_to_polar (m_camera - m_target);
       double theta = polar [0];
       double phi   = polar [1];
       double rho   = polar [2];
@@ -286,7 +287,7 @@ namespace Aa
       if (dy != 0) rho *= std::pow (1.1, dy);
       //if (rho < 0.01) rho = 0.01;
 
-      m_camera = m_target + Math::FromPolar (vec (theta, phi, rho));
+      m_camera = m_target + polar_to_cartesian (vec (theta, phi, rho));
       this->updateViewMatrix ();
       //glutPostRedisplay ();
     }
