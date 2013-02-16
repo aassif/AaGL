@@ -20,17 +20,20 @@ namespace Aa
         mat4      m_modelview;
         mat4      m_projection;
         vec2      m_depth_range;
+        bool      m_moving;
 
       public:
         inline
         CoreContext (Program    * program,
                      const mat4 & modelview,
                      const mat4 & projection,
-                     const vec2 & depth_range) :
+                     const vec2 & depth_range,
+                     bool         moving = false) :
           m_program     (program),
           m_modelview   (modelview),
           m_projection  (projection),
-          m_depth_range (depth_range)
+          m_depth_range (depth_range),
+          m_moving      (moving)
         {
         }
 
@@ -38,6 +41,7 @@ namespace Aa
         inline const mat4 & modelview   () const {return m_modelview;}
         inline const mat4 & projection  () const {return m_projection;}
         inline const vec2 & depth_range () const {return m_depth_range;}
+        inline bool         is_moving   () const {return m_moving;}
 
         inline
         void use () const
