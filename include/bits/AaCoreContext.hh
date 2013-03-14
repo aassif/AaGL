@@ -43,6 +43,7 @@ namespace Aa
         inline const vec2 & depth_range () const {return m_depth_range;}
         inline bool         is_moving   () const {return m_moving;}
 
+#if 0
         inline
         void use () const
         {
@@ -54,6 +55,7 @@ namespace Aa
           m_program->set<GLfloat, 3, 3> ("aa_gl_normal_matrix",      NormalMatrix (m_modelview));
           m_program->set<GLfloat, 2>    ("aa_gl_depth_range",        m_depth_range);
         }
+#endif
     };
 
   } // namespace GL

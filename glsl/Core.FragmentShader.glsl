@@ -2,7 +2,7 @@
 
 #extension GL_ARB_shading_language_include : require
 
-#include "/Aa/Core/Vertex"
+#include "/Aa/Core/Fragment"
 
 void main ()
 {

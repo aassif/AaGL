@@ -152,8 +152,8 @@ namespace Aa
     void Program::attach (GLenum type, const string & source)
       throw (FileNotFound, ShaderException)
     {
-      //string source = ReadSource (path);
-      GLuint shader = CreateShader (type, source.c_str (), source.size ());
+      string data = String (source);
+      GLuint shader = CreateShader (type, data.c_str (), data.size ());
       glAttachShader (m_id, shader);
       glDeleteShader (shader);
     }
