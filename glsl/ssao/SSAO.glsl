@@ -1,3 +1,6 @@
+#ifndef AA_SSAO
+#define AA_SSAO
+
 uniform mat4      aa_ssao_projection;
 uniform vec2      aa_ssao_depth_range;
 uniform bool      aa_ssao_randomized;
@@ -53,4 +56,6 @@ float aa_ssao_project (float z)
 {
   return 0.5 * (1.0 - aa_ssao_projection[2][2] + aa_ssao_projection[3][2] / aa_ssao_depth (z));
 }
+
+#endif // AA_SSAO
 
