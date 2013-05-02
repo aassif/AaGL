@@ -222,7 +222,7 @@ namespace Aa
     AA_GL_INLINE
     dvec3 UnProject (const dvec3 & window)
     {
-      return UnProject (object, ModelView (), Projection (), Viewport ());
+      return UnProject (window, ModelView (), Projection (), Viewport ());
     }
 
 ////////////////////////////////////////////////////////////////////////////////
