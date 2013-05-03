@@ -33,7 +33,6 @@ find_path(AAOPENGL_INCLUDE_DIR
     AaGlutText
     AaGlutWatermark
     AaGrabber
-    AaLight
     AaPrimitives
     AaReferenceFrame
     AaScene
@@ -47,7 +46,6 @@ find_path(AAOPENGL_INCLUDE_DIR
     bits/AaGlutText.hh
     bits/AaGlutWatermark.hh
     bits/AaGrabber.h
-    bits/AaLight.h
     bits/AaPrimitives.h
     bits/AaReferenceFrame.hh
     bits/AaScene.h

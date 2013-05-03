@@ -30,6 +30,32 @@ namespace Aa
     AA_GL_VERTEX (GLdouble, 4, glVertex4dv)
 
 ////////////////////////////////////////////////////////////////////////////////
+// Aa::GL::Color ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+#define AA_GL_COLOR(T, m, F) \
+    AA_GL_INLINE \
+    void Color (const V<T, m> & v) {F (&(v[0]));}
+
+    AA_GL_COLOR (GLbyte,   3, glColor3bv)
+    AA_GL_COLOR (GLubyte,  3, glColor3ubv)
+    AA_GL_COLOR (GLshort,  3, glColor3sv)
+    AA_GL_COLOR (GLushort, 3, glColor3usv)
+    AA_GL_COLOR (GLint,    3, glColor3iv)
+    AA_GL_COLOR (GLuint,   3, glColor3uiv)
+    AA_GL_COLOR (GLfloat,  3, glColor3fv)
+    AA_GL_COLOR (GLdouble, 3, glColor3dv)
+
+    AA_GL_COLOR (GLbyte,   4, glColor4bv)
+    AA_GL_COLOR (GLubyte,  4, glColor4ubv)
+    AA_GL_COLOR (GLshort,  4, glColor4sv)
+    AA_GL_COLOR (GLushort, 4, glColor4usv)
+    AA_GL_COLOR (GLint,    4, glColor4iv)
+    AA_GL_COLOR (GLuint,   4, glColor4uiv)
+    AA_GL_COLOR (GLfloat,  4, glColor4fv)
+    AA_GL_COLOR (GLdouble, 4, glColor4dv)
+
+////////////////////////////////////////////////////////////////////////////////
 // Aa::GL::Normal //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
