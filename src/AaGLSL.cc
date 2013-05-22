@@ -3,6 +3,11 @@
 #include <iterator>
 #include "AaGLSL"
 
+#ifdef CADEAU_POUR_ROMAIN
+#include "bits/AaIncludeResolver.hh"
+Aa::GL::IncludeResolver aa_gl_include_resolver;
+#endif
+
 using namespace std;
 
 namespace Aa
@@ -68,11 +73,18 @@ namespace Aa
 
     void Program::SetString (const string & name, const string & source)
     {
+#ifdef CADEAU_POUR_ROMAIN
+      aa_gl_include_resolver.set (name, source);
+#else
       glNamedStringARB (GL_SHADER_INCLUDE_ARB, -1, name.c_str (), -1, source.c_str ());
+#endif
     }
 
     std::string Program::String (const string & name)
     {
+#ifdef CADEAU_POUR_ROMAIN
+      return aa_gl_include_resolver (name);
+#else
       const char * name_c_str = name.c_str ();
 
       GLint length = 0;
@@ -85,6 +97,7 @@ namespace Aa
       delete[] data;
 
       return str;
+#endif
     }
 
     string Program::ShaderLog (GLuint shader)
