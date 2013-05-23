@@ -9,6 +9,8 @@ project(AaOpenGL C CXX)
 include("$ENV{DEVEL_PATH}/cmake/cmake-paths.txt")
 include("$ENV{DEVEL_PATH}/cmake/cmake-env.txt"  )
 
+add_definitions(-DAA_GL_INCLUDE_RESOLVER)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "/EHa")
 endif(MSVC)
