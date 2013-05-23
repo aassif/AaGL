@@ -3,7 +3,7 @@
 #include <iterator>
 #include "AaGLSL"
 
-#ifdef CADEAU_POUR_ROMAIN
+#ifdef AA_GL_INCLUDE_RESOLVER
 #include "bits/AaIncludeResolver.hh"
 Aa::GL::IncludeResolver aa_gl_include_resolver;
 #endif
@@ -73,31 +73,45 @@ namespace Aa
 
     void Program::SetString (const string & name, const string & source)
     {
-#ifdef CADEAU_POUR_ROMAIN
-      aa_gl_include_resolver.set (name, source);
+      if (GLEW_ARB_shading_language_include)
+      {
+        glNamedStringARB (GL_SHADER_INCLUDE_ARB, -1, name.c_str (), -1, source.c_str ());
+      }
+      else
+      {
+#ifdef AA_GL_INCLUDE_RESOLVER
+        aa_gl_include_resolver.set (name, source);
 #else
-      glNamedStringARB (GL_SHADER_INCLUDE_ARB, -1, name.c_str (), -1, source.c_str ());
+        throw MissingExtension ("GL_ARB_shading_language_include");
 #endif
+      }
     }
 
     std::string Program::String (const string & name)
     {
-#ifdef CADEAU_POUR_ROMAIN
-      return aa_gl_include_resolver (name);
+      if (GLEW_ARB_shading_language_include)
+      {
+        const char * name_c_str = name.c_str ();
+
+        GLint length = 0;
+        glGetNamedStringivARB (-1, name_c_str, GL_NAMED_STRING_LENGTH_ARB, &length);
+
+        char * data = new char [length];
+        glGetNamedStringARB (-1, name_c_str, length, NULL, data);
+
+        string str (data, length);
+        delete[] data;
+
+        return str;
+      }
+      else
+      {
+#ifdef AA_GL_INCLUDE_RESOLVER
+        return aa_gl_include_resolver (name);
 #else
-      const char * name_c_str = name.c_str ();
-
-      GLint length = 0;
-      glGetNamedStringivARB (-1, name_c_str, GL_NAMED_STRING_LENGTH_ARB, &length);
-
-      char * data = new char [length];
-      glGetNamedStringARB (-1, name_c_str, length, NULL, data);
-
-      string str (data, length);
-      delete[] data;
-
-      return str;
+        throw MissingExtension ("GL_ARB_shading_language_include");
 #endif
+      }
     }
 
     string Program::ShaderLog (GLuint shader)
