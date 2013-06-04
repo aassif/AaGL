@@ -1,5 +1,5 @@
-#ifndef __AA_GLSL__
-#define __AA_GLSL__
+#ifndef AA_GLSL__H
+#define AA_GLSL__H
 
 #include <string>
 #include <vector>
@@ -20,6 +20,77 @@ namespace Aa
       public:
         ShaderException (const std::string & message);
         virtual ~ShaderException () throw ();
+    };
+
+    // Variables.
+    template <typename T>
+    inline
+    void SetUniform (GLint location, T t);
+
+    template <typename T, unsigned int m>
+    inline
+    void SetUniform (GLint location, const V<T, m> & v);
+
+    template <typename T, unsigned int m, unsigned int n>
+    inline
+    void SetUniform (GLint location, const M<T, m, n> & matrix);
+
+#if 1
+    template <typename T, unsigned int m>
+    inline
+    void SetUniform (GLint location, const M2<T, m> & matrix)
+    {
+      SetUniform (location, (const M<T, m, m> &) matrix);
+    }
+#endif
+
+    // Arrays.
+    template <typename T>
+    inline
+    void SetUniform (GLint location, GLsizei count, const T * values);
+
+    template <typename T, unsigned int m>
+    inline
+    void SetUniform (GLint location, GLsizei count, const V<T, m> * values);
+
+    template <typename T, unsigned int m, unsigned int n>
+    inline
+    void SetUniform (GLint location, GLsizei count, const M<T, m, n> * values);
+
+#if 1
+    template <typename T, unsigned int m, unsigned int n>
+    inline
+    void SetUniform (GLint location, GLsizei count, const M2<T, m> * values)
+    {
+      SetUniform (location, count, (const M<T, m, m> *) values);
+    }
+#endif
+
+    template <typename T>
+    class Location
+    {
+      private:
+        GLint m_location;
+
+      public:
+        inline
+        Location (GLint location = 0) :
+          m_location (location)
+        {
+        }
+
+        inline
+        Location & operator= (GLint location)
+        {
+          m_location = location;
+          return (*this);
+        }
+
+        inline
+        void operator() (const T & t)
+        {
+          SetUniform (m_location, t);
+        }
     };
 
     class AA_GL_API Program
@@ -58,35 +129,8 @@ namespace Aa
         std::string ProgramLog (GLuint program);
 
       public:
-        // Variables.
-        template <typename T>
-        inline static
-        void SetUniform (GLint location, T t);
-
-        template <typename T, unsigned int m>
-        inline static
-        void SetUniform (GLint location, const V<T, m> & v);
-
-        template <typename T, unsigned int m, unsigned int n>
-        inline static
-        void SetUniform (GLint location, const M<T, m, n> & matrix);
-
-        // Arrays.
-        template <typename T>
-        inline static
-        void SetUniform (GLint location, GLsizei count, const T * values);
-
-        template <typename T, unsigned int m>
-        inline static
-        void SetUniform (GLint location, GLsizei count, const V<T, m> * values);
-
-        template <typename T, unsigned int m, unsigned int n>
-        inline static
-        void SetUniform (GLint location, GLsizei count, const M<T, m, n> * values);
-
-      public:
         Program ();
-        virtual ~Program ();
+        ~Program ();
         inline GLuint id () const {return m_id;}
 
         // Shader attachment.
@@ -101,44 +145,12 @@ namespace Aa
 
         // Location.
         GLint location (const char * name) const;
-
-        // Variables.
-        template <typename T>
-        inline
-        void set (const char * name, T t) const
-          throw (ShaderException);
-
-        template <typename T, unsigned int m>
-        inline
-        void set (const char * name, const V<T, m> & v) const
-          throw (ShaderException);
-
-        template <typename T, unsigned int m, unsigned int n>
-        inline
-        void set (const char * name, const M<T, m, n> & matrix) const
-          throw (ShaderException);
-
-        // Arrays.
-        template <typename T>
-        inline
-        void set (const char * name, GLsizei count, const T * values) const
-          throw (ShaderException);
-
-        template <typename T, unsigned int m>
-        inline
-        void set (const char * name, GLsizei count, const V<T, m> * values) const
-          throw (ShaderException);
-
-        template <typename T, unsigned int m, unsigned int n>
-        inline
-        void set (const char * name, GLsizei count, const M<T, m, n> * values) const
-          throw (ShaderException);
     };
 
 #define AA_GLSL_UNIFORM_VALUE(T, F) \
     template <>\
     inline\
-    void Program::SetUniform<T> (GLint location, T t)\
+    void SetUniform<T> (GLint location, T t)\
     {\
       F (location, t);\
     }
@@ -149,20 +161,10 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_VALUE
 
-    template <typename T>
-    inline
-    void Program::set (const char * name, T t) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T> (l, t);
-    }
-
 #define AA_GLSL_UNIFORM_VECTOR(T, m, F) \
     template <>\
     inline\
-    void Program::SetUniform<T, m> (GLint location, const V<T, m> & v)\
+    void SetUniform<T, m> (GLint location, const V<T, m> & v)\
     {\
       F (location, 1, &(v[0]));\
     }
@@ -181,20 +183,10 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_VECTOR
 
-    template <typename T, unsigned int m>
-    inline
-    void Program::set (const char * name, const V<T, m> & v) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T, m> (l, v);
-    }
-
 #define AA_GLSL_UNIFORM_MATRIX(T, m, n, F) \
     template <>\
     inline\
-    void Program::SetUniform<T, m, n> (GLint location, const M<T, m, n> & matrix)\
+    void SetUniform<T, m, n> (GLint location, const M<T, m, n> & matrix)\
     {\
       F (location, 1, GL_FALSE, &(matrix[0][0]));\
     }
@@ -213,20 +205,10 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_MATRIX
 
-    template <typename T, unsigned int m, unsigned int n>
-    inline
-    void Program::set (const char * name, const M<T, m, n> & matrix) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T, m, n> (l, matrix);
-    }
-
 #define AA_GLSL_UNIFORM_VALUE_ARRAY(T, F) \
     template <>\
     inline\
-    void Program::SetUniform<T> (GLint location, GLsizei count, const T * values)\
+    void SetUniform<T> (GLint location, GLsizei count, const T * values)\
     {\
       F (location, count, values);\
     }
@@ -237,20 +219,10 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_VALUE_ARRAY
 
-    template <typename T>
-    inline
-    void Program::set (const char * name, GLsizei count, const T * values) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T> (l, count, values);
-    }
-
 #define AA_GLSL_UNIFORM_VECTOR_ARRAY(T, m, F) \
     template <>\
     inline\
-    void Program::SetUniform<T, m> (GLint location, GLsizei count, const V<T, m> * values)\
+    void SetUniform<T, m> (GLint location, GLsizei count, const V<T, m> * values)\
     {\
       F (location, count, &(values[0][0]));\
     }
@@ -269,20 +241,10 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_VECTOR_ARRAY
 
-    template <typename T, unsigned int m>
-    inline
-    void Program::set (const char * name, GLsizei count, const V<T, m> * values) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T, m> (l, count, values);
-    }
-
 #define AA_GLSL_UNIFORM_MATRIX_ARRAY(T, m, n, F) \
     template <>\
     inline\
-    void Program::SetUniform<T, m, n> (GLint location, GLsizei count, const M<T, m, n> * values)\
+    void SetUniform<T, m, n> (GLint location, GLsizei count, const M<T, m, n> * values)\
     {\
       F (location, count, GL_FALSE, &(values[0][0][0]));\
     }
@@ -301,18 +263,8 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_MATRIX_ARRAY
 
-    template <typename T, unsigned int m, unsigned int n>
-    inline
-    void Program::set (const char * name, GLsizei count, const M<T, m, n> * values) const
-      throw (ShaderException)
-    {
-      GLint l = this->location (name);
-      if (l == -1) throw ShaderException::Uniform (name);
-      SetUniform<T, m, n> (l, count, values);
-    }
-
   } // namespace GL
 } // namespace Aa
 
-#endif // __AA_GLSL__
+#endif // AA_GLSL__H
 
