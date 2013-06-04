@@ -26,6 +26,28 @@ namespace Aa
   {
 
 ////////////////////////////////////////////////////////////////////////////////
+// Aa::GL::Check ///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+    inline
+    void Check (const std::string & prefix)
+    {
+      GLenum e = glGetError ();
+      switch (e)
+      {
+        case GL_NO_ERROR:                      break;
+        case GL_INVALID_ENUM:                  throw std::runtime_error (prefix + ": " + "GL_INVALID_ENUM");
+        case GL_INVALID_VALUE:                 throw std::runtime_error (prefix + ": " + "GL_INVALID_VALUE");
+        case GL_INVALID_OPERATION:             throw std::runtime_error (prefix + ": " + "GL_INVALID_OPERATION");
+        case GL_INVALID_FRAMEBUFFER_OPERATION: throw std::runtime_error (prefix + ": " + "GL_INVALID_FRAMEBUFFER_OPERATION");
+        case GL_OUT_OF_MEMORY:                 throw std::runtime_error (prefix + ": " + "GL_GL_OUT_OF_MEMORY");
+        case GL_STACK_UNDERFLOW:               throw std::runtime_error (prefix + ": " + "GL_STACK_UNDERFLOW");
+        case GL_STACK_OVERFLOW:                throw std::runtime_error (prefix + ": " + "GL_STACK_OVERFLOW");
+        default:                               throw std::runtime_error (prefix + ": " + "???");
+      }
+    }
+
+////////////////////////////////////////////////////////////////////////////////
 // Aa::GL::MissingExtension ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
