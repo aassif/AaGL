@@ -259,8 +259,7 @@ namespace Aa
     CoreContext FixedFunction (const vec2 & depth_range,
                                bool         motion = false)
     {
-      return CoreContext (NULL,
-                          ModelView (),
+      return CoreContext (ModelView (),
                           Projection (),
                           depth_range,
                           motion);
