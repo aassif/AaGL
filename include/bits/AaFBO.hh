@@ -148,7 +148,10 @@ namespace Aa
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-          glTexStorage2D (GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, m_dims[0], m_dims[1]);
+          if (GLEW_ARB_texture_storage)
+            glTexStorage2D (GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, m_dims[0], m_dims[1]);
+          else
+            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, m_dims[0], m_dims[1], 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth, 0);
         }
 
@@ -161,7 +164,10 @@ namespace Aa
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-          glTexStorage2D (GL_TEXTURE_2D, 1, GL_STENCIL_INDEX8, m_dims[0], m_dims[1]);
+          if (GLEW_ARB_texture_storage)
+            glTexStorage2D (GL_TEXTURE_2D, 1, GL_STENCIL_INDEX8, m_dims[0], m_dims[1]);
+          else
+            glTexImage2D (GL_TEXTURE_2D, 0, GL_STENCIL_INDEX8, m_dims[0], m_dims[1], 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_stencil, 0);
         }
 
@@ -214,7 +220,10 @@ namespace Aa
             glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexStorage2D (GL_TEXTURE_2D, 1, formats [i], m_dims [0], m_dims [1]);
+            if (GLEW_ARB_texture_storage)
+              glTexStorage2D (GL_TEXTURE_2D, 1, formats [i], m_dims [0], m_dims [1]);
+            else
+              glTexImage2D (GL_TEXTURE_2D, 0, formats [i], m_dims[0], m_dims[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_colors [i], 0);
           }
         }
