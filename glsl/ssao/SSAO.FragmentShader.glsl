@@ -4,12 +4,14 @@
 
 #include "/Aa/SSAO"
 
-layout (location = 0) out vec4 aa_fragment_color;
+in vec4 aa_pass_thru_position;
+
+out layout (location = 0) vec4 aa_fragment_color;
 
 void main ()
 {
-  vec2 p = gl_FragCoord.xy / aa_ssao_screen_size;
-  vec4 c = texture (aa_ssao_tex2d_color, p);
+  vec2  p = 0.5 + 0.5 * aa_pass_thru_position.xy;
+  vec4  c = texture (aa_ssao_tex2d_color, p);
   float z = texture (aa_ssao_tex2d_depth, p).r;
   if (z == 1.0) discard;
   float o = aa_ssao_occlusion (p, z);

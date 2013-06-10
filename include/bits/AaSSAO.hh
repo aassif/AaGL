@@ -107,12 +107,8 @@ namespace Aa
           m_program_tex2d_random = m_program->location ("aa_ssao_tex2d_random");
         }
 
-        void bind ()
+        void bind (const Aa::uvec2 & d)
         {
-          GLint viewport [4];
-          glGetIntegerv (GL_VIEWPORT, viewport);
-          Aa::uvec2 d (viewport [2], viewport [3]);
-
           if (d != m_fbo_size)
           {
             if (m_fbo != NULL)
