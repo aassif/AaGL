@@ -307,6 +307,9 @@ namespace Aa
         ~FBO ()
         {
           glDeleteFramebuffers (1, &m_id);
+          glDeleteTextures (1, &m_depth_stencil);
+          glDeleteTextures (1, &m_depth);
+          glDeleteTextures (1, &m_stencil);
           for (AaUInt i = 0; i < m_colors.size (); ++i)
             glDeleteTextures (1, &(m_colors[i]));
         }
