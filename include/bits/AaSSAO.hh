@@ -36,9 +36,12 @@ namespace Aa
 
         void draw () const
         {
+          GLboolean culling = glIsEnabled (GL_CULL_FACE);
+          glDisable (GL_CULL_FACE);
           glBindVertexArray (m_vao);
           glDrawArrays (GL_TRIANGLE_STRIP, 0, 4);
           glBindVertexArray (0);
+          if (culling) glEnable (GL_CULL_FACE);
         }
     };
 
