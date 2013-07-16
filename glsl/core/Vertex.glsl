@@ -14,13 +14,6 @@ out vec3  aa_vertex_normal;
 out vec4  aa_vertex_color;
 out float aa_vertex_depth;
 
-float aa_gl_depth (vec4 p)
-{
-  float n = aa_gl_depth_range [0];
-  float f = aa_gl_depth_range [1];
-  return clamp ((-p.z - n) / (f - n), 0, 1);
-}
-
 void aa_gl_core ()
 {
   aa_vertex_position = aa_gl_modelview     * aa_gl_position;
