@@ -7,41 +7,44 @@
 
 uniform float aa_phong_tess_weight;
  
-layout (triangles, fractional_odd_spacing, ccw) in;
+layout (triangles, equal_spacing, ccw) in;
  
-in layout (location = 0) vec3       aa_control_normal [];
-in layout (location = 0) vec4       aa_control_color  [];
-in layout (location = 6) PhongPatch aa_control_patch  [];
+in vec3       aa_control_normal [];
+in vec4       aa_control_color  [];
+in vec2       aa_control_tex2d  [];
+in PhongPatch aa_control_patch  [];
  
 out vec4  aa_eval_position;
 out vec3  aa_eval_normal;
 out vec4  aa_eval_color;
+out vec2  aa_eval_tex2d;
 out float aa_eval_depth;
 
 #define Pi  gl_in[0].gl_Position.xyz
 #define Pj  gl_in[1].gl_Position.xyz
 #define Pk  gl_in[2].gl_Position.xyz
-#define tc1 gl_TessCoord
+#define uvw gl_TessCoord
  
 void main ()
 {
-  // precompute squared tesscoords
-  vec3 tc2 = tc1*tc1;
+  float u = uvw [0], u2 = u * u;
+  float v = uvw [1], v2 = v * v;
+  float w = uvw [2], w2 = w * w;
     
-  // compute texcoord and normal
-//  oTexCoord = gl_TessCoord[0]*iTexCoord[0]
-//            + gl_TessCoord[1]*iTexCoord[1]
-//            + gl_TessCoord[2]*iTexCoord[2];
-  vec3 normal   = gl_TessCoord[0] * aa_control_normal[0]
-                + gl_TessCoord[1] * aa_control_normal[1]
-                + gl_TessCoord[2] * aa_control_normal[2];
+  vec3 normal  = u * aa_control_normal[0]
+               + v * aa_control_normal[1]
+               + w * aa_control_normal[2];
       
-  // interpolated position
-  vec3 p1 = gl_TessCoord[0] * Pi
-          + gl_TessCoord[1] * Pj
-          + gl_TessCoord[2] * Pk;
+  vec3 color   = u * aa_control_color[0]
+               + v * aa_control_color[1]
+               + w * aa_control_color[2];
+      
+//  vec2 tex2d   = u * aa_control_tex2d[0]
+//               + v * aa_control_tex2d[1]
+//               + w * aa_control_tex2d[2];
+
+  vec3 p1 = u * Pi + v * Pj + w * Pk;
        
-  // build terms
   vec3 termIJ = vec3 (aa_control_patch[0].termIJ,
                       aa_control_patch[1].termIJ,
                       aa_control_patch[2].termIJ);
@@ -52,21 +55,19 @@ void main ()
                       aa_control_patch[1].termIK,
                       aa_control_patch[2].termIK);
 
-  // phong tesselated pos
-  vec3 p2 = tc2[0] * Pi
-          + tc2[1] * Pj
-          + tc2[2] * Pk
-          + tc1[0] * tc1[1] * termIJ
-          + tc1[1] * tc1[2] * termJK
-          + tc1[2] * tc1[0] * termIK;
+  vec3 p2 = u2 * Pi
+          + v2 * Pj
+          + w2 * Pk
+          + u * v * termIJ
+          + v * w * termJK
+          + w * u * termIK;
            
-  // final position
   vec3 position = mix (p1, p2, aa_phong_tess_weight);
 
-  aa_eval_position = aa_gl_modelview     * vec4 (position, 1.0);
-  aa_eval_normal   = aa_gl_normal_matrix * normal;
-  aa_eval_color    = vec4 (1, 0, 0, 1); //aa_gl_color;
-  aa_eval_depth    = aa_gl_depth          (aa_eval_position);
-  gl_Position      = aa_gl_projection    * aa_eval_position;
+  aa_eval_position = vec4 (position, 1.0);
+  aa_eval_normal   = normal;
+  aa_eval_color    = color;
+  aa_eval_depth    = aa_gl_depth       (aa_eval_position);
+  gl_Position      = aa_gl_projection * aa_eval_position;
 }
 

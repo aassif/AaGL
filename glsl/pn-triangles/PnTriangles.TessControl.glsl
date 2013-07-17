@@ -4,17 +4,16 @@
 
 #include "/Aa/PnTriangles"
  
-// tessellation levels
 uniform float aa_pn_triangles_levels;
- 
-layout (vertices = 3) out;
  
 in layout (location = 0) vec3 aa_vertex_normal [];
 in layout (location = 1) vec4 aa_vertex_color  [];
  
-out layout (location = 0) vec3    aa_control_normal [3];
-out layout (location = 3) vec4    aa_control_color  [3];
-out layout (location = 6) PnPatch aa_control_patch  [3];
+layout (vertices = 3) out;
+
+out vec3    aa_control_normal [3];
+out vec4    aa_control_color  [3];
+out PnPatch aa_control_patch  [3];
  
 float wij (int i, int j)
 {
@@ -31,12 +30,10 @@ float vij (int i, int j)
  
 void main ()
 {
- // get data
- gl_out  [gl_InvocationID].gl_Position = gl_in   [gl_InvocationID].gl_Position;
+ gl_out            [gl_InvocationID].gl_Position = gl_in            [gl_InvocationID].gl_Position;
  aa_control_normal [gl_InvocationID]             = aa_vertex_normal [gl_InvocationID];
  aa_control_color  [gl_InvocationID]             = aa_vertex_color  [gl_InvocationID];
  
- // set base 
  float P0 = gl_in[0].gl_Position[gl_InvocationID];
  float P1 = gl_in[1].gl_Position[gl_InvocationID];
  float P2 = gl_in[2].gl_Position[gl_InvocationID];
@@ -44,7 +41,6 @@ void main ()
  float N1 = aa_vertex_normal[1][gl_InvocationID];
  float N2 = aa_vertex_normal[2][gl_InvocationID];
  
- // compute control points
  aa_control_patch[gl_InvocationID].b210 = (2.0*P0 + P1 - wij(0,1)*N0)/3.0;
  aa_control_patch[gl_InvocationID].b120 = (2.0*P1 + P0 - wij(1,0)*N1)/3.0;
  aa_control_patch[gl_InvocationID].b021 = (2.0*P1 + P2 - wij(1,2)*N1)/3.0;
@@ -65,7 +61,6 @@ void main ()
  aa_control_patch[gl_InvocationID].n011 = N1+N2-vij(1,2)*(P2-P1);
  aa_control_patch[gl_InvocationID].n101 = N2+N0-vij(2,0)*(P0-P2);
  
- // set tess levels
  gl_TessLevelOuter [gl_InvocationID] = aa_pn_triangles_levels;
  gl_TessLevelInner [0]               = aa_pn_triangles_levels;
 }

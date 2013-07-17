@@ -7,15 +7,17 @@
 
 uniform float aa_pn_triangles_weight;
 
-layout (triangles, fractional_odd_spacing, ccw) in;
+layout (triangles, equal_spacing, ccw) in;
 
-in layout (location = 0) vec3    aa_control_normal [];
-in layout (location = 3) vec4    aa_control_color  [];
-in layout (location = 6) PnPatch aa_control_patch  [];
+in vec3    aa_control_normal [];
+in vec4    aa_control_color  [];
+in vec2    aa_control_tex2d  [];
+in PnPatch aa_control_patch  [];
 
 out vec4  aa_eval_position;
 out vec3  aa_eval_normal;
 out vec4  aa_eval_color;
+out vec2  aa_eval_tex2d;
 out float aa_eval_depth;
 
 #define b300    gl_in[0].gl_Position.xyz
@@ -78,9 +80,9 @@ void main()
 
   vec3 position = mix (p1, p2, aa_pn_triangles_weight);
 
-  aa_eval_position = aa_gl_modelview     * vec4 (position, 1.0);
-  aa_eval_normal   = aa_gl_normal_matrix * normal;
+  aa_eval_position = vec4 (position, 1.0);
+  aa_eval_normal   = normal;
   aa_eval_color    = color;
-  aa_eval_depth    = aa_gl_depth          (aa_eval_position);
-  gl_Position      = aa_gl_projection    * aa_eval_position;
+  aa_eval_depth    = aa_gl_depth       (aa_eval_position);
+  gl_Position      = aa_gl_projection * aa_eval_position;
 }

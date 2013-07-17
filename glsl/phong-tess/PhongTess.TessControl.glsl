@@ -9,11 +9,11 @@ uniform float aa_phong_tess_levels;
 in layout (location = 0) vec3 aa_vertex_normal [];
 in layout (location = 1) vec4 aa_vertex_color  [];
  
-out layout (location = 0) vec3       aa_control_normal [3];
-out layout (location = 3) vec4       aa_control_color  [3];
-out layout (location = 6) PhongPatch aa_control_patch  [3];
- 
 layout (vertices = 3) out;
+
+out vec3       aa_control_normal [3];
+out vec4       aa_control_color  [3];
+out PhongPatch aa_control_patch  [3];
 
 #define Pi gl_in[0].gl_Position.xyz
 #define Pj gl_in[1].gl_Position.xyz
