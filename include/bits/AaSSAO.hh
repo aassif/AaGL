@@ -54,7 +54,7 @@ namespace Aa
         uvec2            m_fbo_size;
         Quad             m_quad;
 
-        Program        * m_program;
+        Program          m_program;
         Location<mat4>   m_program_projection;
         Location<vec2>   m_program_depth_range;
         Location<int>    m_program_randomized;
@@ -75,7 +75,7 @@ namespace Aa
           m_fbo (NULL),
           m_fbo_size (0u),
           m_quad (),
-          m_program (NULL)
+          m_program ()
         {
           GLubyte R [64][64];
           for (AaUInt i = 0; i < 64; ++i)
@@ -92,22 +92,21 @@ namespace Aa
           glGenerateMipmap (GL_TEXTURE_2D);
           glBindTexture (GL_TEXTURE_2D, 0);
 
-          m_program = new Aa::GL::Program;
-          m_program->attach (GL_VERTEX_SHADER,   vertex);
-          m_program->attach (GL_FRAGMENT_SHADER, fragment);
-          m_program->link ();
+          m_program.attach (GL_VERTEX_SHADER,   vertex);
+          m_program.attach (GL_FRAGMENT_SHADER, fragment);
+          m_program.link ();
 
-          m_program_projection   = m_program->location ("aa_ssao_projection");
-          m_program_depth_range  = m_program->location ("aa_ssao_depth_range");
-          m_program_randomized   = m_program->location ("aa_ssao_randomized");
-          m_program_screen_size  = m_program->location ("aa_ssao_screen_size");
-          m_program_random_size  = m_program->location ("aa_ssao_random_size");
-          m_program_radius       = m_program->location ("aa_ssao_radius");
-          m_program_rings        = m_program->location ("aa_ssao_rings");
-          m_program_slices       = m_program->location ("aa_ssao_slices");
-          m_program_tex2d_color  = m_program->location ("aa_ssao_tex2d_color");
-          m_program_tex2d_depth  = m_program->location ("aa_ssao_tex2d_depth");
-          m_program_tex2d_random = m_program->location ("aa_ssao_tex2d_random");
+          m_program_projection   = m_program.location ("aa_ssao_projection");
+          m_program_depth_range  = m_program.location ("aa_ssao_depth_range");
+          m_program_randomized   = m_program.location ("aa_ssao_randomized");
+          m_program_screen_size  = m_program.location ("aa_ssao_screen_size");
+          m_program_random_size  = m_program.location ("aa_ssao_random_size");
+          m_program_radius       = m_program.location ("aa_ssao_radius");
+          m_program_rings        = m_program.location ("aa_ssao_rings");
+          m_program_slices       = m_program.location ("aa_ssao_slices");
+          m_program_tex2d_color  = m_program.location ("aa_ssao_tex2d_color");
+          m_program_tex2d_depth  = m_program.location ("aa_ssao_tex2d_depth");
+          m_program_tex2d_random = m_program.location ("aa_ssao_tex2d_random");
         }
 
         void bind (const Aa::uvec2 & d)
@@ -140,7 +139,7 @@ namespace Aa
           glActiveTexture (GL_TEXTURE1); glBindTexture (GL_TEXTURE_2D, m_fbo->texture (1));
           glActiveTexture (GL_TEXTURE2); glBindTexture (GL_TEXTURE_2D, m_random);
 
-          m_program->use ();
+          m_program.use ();
 
           m_program_projection   (context.projection ());
           m_program_depth_range  (context.depth_range ());
