@@ -72,8 +72,8 @@ namespace Aa
     void Primitives::Box (const box3 & b)
     {
       glPushMatrix ();
-      GL::Translate (b.pos ());
-      GL::Scale     (b.dim ());
+      GL::Translate (b.pos  ());
+      GL::Scale     (b.dims ());
       Primitives::Box ();
       glPopMatrix ();
     }

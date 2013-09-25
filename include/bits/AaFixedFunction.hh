@@ -204,8 +204,8 @@ namespace Aa
                    const dmat4 & projection,
                    const ibox2 & viewport)
     {
-      const ivec2 & p = viewport.pos ();
-      const ivec2 & d = viewport.dim ();
+      const ivec2 & p = viewport.pos  ();
+      const ivec2 & d = viewport.dims ();
       GLint v [4] = {p[0], p[1], d[0], d[1]};
       return Project (object, &(modelview[0][0]), &(projection[0][0]), v);
     }
@@ -239,9 +239,9 @@ namespace Aa
                      const dmat4 & projection,
                      const ibox2 & v)
     {
-      const ivec2 & pos = v.pos ();
-      const ivec2 & dim = v.dim ();
-      GLint viewport [4] = {pos[0], pos[1], dim[0], dim[1]};
+      const ivec2 & p = v.pos  ();
+      const ivec2 & d = v.dims ();
+      GLint viewport [4] = {p[0], p[1], d[0], d[1]};
       return UnProject (window, &(modelview[0][0]), &(projection[0][0]), viewport);
     }
 

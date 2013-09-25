@@ -63,12 +63,12 @@ namespace Aa
                    GLbitfield mask = FBO::BLIT_ALL, GLenum filter = GL_NEAREST)
         {
           //std::cout << "src = " << src << " : " << src_box << std::endl;
-          const ivec2 & src_min = src_box.pos ();
-          const ivec2 & src_max = src_min + src_box.dim ();
+          ivec2 src_min = src_box.min ();
+          ivec2 src_max = src_box.max ();
 
           //std::cout << "dst = " << dst << " : " << dst_box << std::endl;
-          const ivec2 & dst_min = dst_box.pos ();
-          const ivec2 & dst_max = dst_min + dst_box.dim ();
+          ivec2 dst_min = dst_box.min ();
+          ivec2 dst_max = dst_box.max ();
 
           GLint read = FBO::Binding (FBO::READ);
           glBindFramebuffer (GL_READ_FRAMEBUFFER, src);
