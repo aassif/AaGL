@@ -30,7 +30,7 @@ namespace Aa
       //GLboolean backup_glDepthMask;
       //glGetBooleanv (GL_DEPTH_WRITEMASK, &backup_glDepthMask);
       //glDepthMask (GL_FALSE);
-      // Polyong mode.
+      // Polygon mode.
       //GLint backup_glPolygonMode [2];
       //glGetIntegerv (GL_POLYGON_MODE, backup_glPolygonMode);
       //glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);

@@ -117,6 +117,7 @@ void main ()
   aa_eval_position = position;
   aa_eval_normal   = normal;
   aa_eval_color    = color;
+  aa_eval_tex2d    = gl_TessCoord.xy;
   aa_eval_depth    = aa_gl_depth       (aa_eval_position);
   gl_Position      = aa_gl_projection * aa_eval_position;
 }
