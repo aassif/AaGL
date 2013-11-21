@@ -140,7 +140,7 @@ namespace Aa
                                   GLsizei count,
                                   const GLchar ** buffers,
                                   const GLint * lengths)
-      throw (FileNotFound, ShaderException)
+      throw (ShaderException)
     {
       GLuint shader = glCreateShader (type);
       glShaderSource (shader, count, buffers, lengths);
@@ -160,7 +160,7 @@ namespace Aa
     GLuint Program::CreateShader (GLenum type,
                                   const GLchar * buffer,
                                   GLint length)
-      throw (FileNotFound, ShaderException)
+      throw (ShaderException)
     {
       return CreateShader (type, 1, &buffer, &length);
     }
@@ -177,12 +177,19 @@ namespace Aa
     }
 
     void Program::attach (GLenum type, const string & source)
-      throw (FileNotFound, ShaderException)
+      throw (ShaderException)
     {
-      string data = String (source);
-      GLuint shader = CreateShader (type, data.c_str (), data.size ());
-      glAttachShader (m_id, shader);
-      glDeleteShader (shader);
+      try
+      {
+        string data = String (source);
+        GLuint shader = CreateShader (type, data.c_str (), data.size ());
+        glAttachShader (m_id, shader);
+        glDeleteShader (shader);
+      }
+      catch (ShaderException & e)
+      {
+        throw ShaderException ("Aa::GL::Program: " + source + '\n' + e.what ());
+      }
     }
 
     void Program::link () const throw (ShaderException)

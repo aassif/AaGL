@@ -114,13 +114,13 @@ namespace Aa
                              GLsizei count,
                              const GLchar ** buffers,
                              const GLint * lengths)
-          throw (FileNotFound, ShaderException);
+          throw (ShaderException);
 
         /*inline*/ static
         GLuint CreateShader (GLenum type,
                              const GLchar * buffer,
                              GLint length)
-          throw (FileNotFound, ShaderException);
+          throw (ShaderException);
 
         /*inline*/ static
         std::string ShaderLog (GLuint shader);
@@ -136,7 +136,7 @@ namespace Aa
         // Shader attachment.
         void attach (GLenum type,
                      const std::string & source)
-          throw (FileNotFound, ShaderException);
+          throw (ShaderException);
 
         // Validation, linkage and usage.
         void validate () const throw (ShaderException);
