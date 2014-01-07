@@ -144,14 +144,17 @@ namespace Aa
         {
           glGenTextures (1, &m_depth);
           glBindTexture (GL_TEXTURE_2D, m_depth);
+
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
           if (GLEW_ARB_texture_storage)
             glTexStorage2D (GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, m_dims[0], m_dims[1]);
           else
             glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, m_dims[0], m_dims[1], 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth, 0);
         }
 
@@ -160,14 +163,17 @@ namespace Aa
         {
           glGenTextures (1, &m_stencil);
           glBindTexture (GL_TEXTURE_2D, m_stencil);
+
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
           if (GLEW_ARB_texture_storage)
             glTexStorage2D (GL_TEXTURE_2D, 1, GL_STENCIL_INDEX8, m_dims[0], m_dims[1]);
           else
             glTexImage2D (GL_TEXTURE_2D, 0, GL_STENCIL_INDEX8, m_dims[0], m_dims[1], 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
+
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_stencil, 0);
         }
 
@@ -176,12 +182,14 @@ namespace Aa
         {
           glGenTextures (1, &m_depth_stencil);
           glBindTexture (GL_TEXTURE_2D, m_depth_stencil);
+
 #if 0
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
           glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 #endif
+
           glTexStorage2D (GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_dims[0], m_dims[1]);
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,   GL_TEXTURE_2D, m_depth_stencil, 0);
           glFramebufferTexture2D (GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_depth_stencil, 0);
@@ -332,16 +340,19 @@ namespace Aa
         inline
         void clear_depth (GLfloat d = 1.0f)
         {
-          glClearDepth (d);
-          glClear (GL_DEPTH_BUFFER_BIT);
+          glClearBufferfv (GL_DEPTH, 0, &d);
+        }
+
+        inline
+        void clear_stencil (GLint s = 0)
+        {
+          glClearBufferiv (GL_STENCIL, 0, &s);
         }
 
         inline
         void clear_color (AaUInt k, const vec4 & c = vec4 (0.0f))
         {
-          glDrawBuffer (GL_COLOR_ATTACHMENT0 + k);
-          glClearColor (c[0], c[1], c[2], c[3]);
-          glClear (GL_COLOR_BUFFER_BIT);
+          glClearBufferfv (GL_COLOR, k, &(c[0]));
         }
 
         inline
