@@ -5,18 +5,18 @@
 
 #ifdef AA_GL_INCLUDE_RESOLVER
 #include "bits/AaIncludeResolver.hh"
-Aa::GL::IncludeResolver aa_gl_include_resolver;
+Aa::GLSL::IncludeResolver aa_glsl_include_resolver;
 #endif
 
 using namespace std;
 
 namespace Aa
 {
-  namespace GL
+  namespace GLSL
   {
 
 ////////////////////////////////////////////////////////////////////////////////
-// Aa::GL::ShaderException /////////////////////////////////////////////////////
+// Aa::GLSL::ShaderException ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
     ShaderException ShaderException::Compilation (const string & log)
@@ -57,7 +57,7 @@ namespace Aa
     }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Aa::GL::Program /////////////////////////////////////////////////////////////
+// Aa::GLSL::Program ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
     string Program::ReadSource (const string & path)
@@ -80,9 +80,9 @@ namespace Aa
       else
       {
 #ifdef AA_GL_INCLUDE_RESOLVER
-        aa_gl_include_resolver.set (name, source);
+        aa_glsl_include_resolver.set (name, source);
 #else
-        throw MissingExtension ("GL_ARB_shading_language_include");
+        throw Aa::GL::MissingExtension ("GL_ARB_shading_language_include");
 #endif
       }
     }
@@ -107,9 +107,9 @@ namespace Aa
       else
       {
 #ifdef AA_GL_INCLUDE_RESOLVER
-        return aa_gl_include_resolver (name);
+        return aa_glsl_include_resolver (name);
 #else
-        throw MissingExtension ("GL_ARB_shading_language_include");
+        throw Aa::GL::MissingExtension ("GL_ARB_shading_language_include");
 #endif
       }
     }
@@ -230,6 +230,6 @@ namespace Aa
       glUseProgram (m_id);
     }
 
-  } // namespace GL
+  } // namespace GLSL
 } // namespace Aa
 

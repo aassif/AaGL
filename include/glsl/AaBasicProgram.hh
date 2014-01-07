@@ -1,9 +1,9 @@
-#ifndef AA_GL_BASIC_PROGRAM__H
-#define AA_GL_BASIC_PROGRAM__H
+#ifndef AA_GLSL_BASIC_PROGRAM__H
+#define AA_GLSL_BASIC_PROGRAM__H
 
 namespace Aa
 {
-  namespace GL
+  namespace GLSL
   {
     template <class V, class F>
     class TBasicProgram : public Program
@@ -43,5 +43,5 @@ namespace Aa
   }
 }
 
-#endif // AA_GL_BASIC_PROGRAM__H
+#endif // AA_GLSL_BASIC_PROGRAM__H
 

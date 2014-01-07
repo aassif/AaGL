@@ -7,7 +7,7 @@
 
 namespace Aa
 {
-  namespace GL
+  namespace GLSL
   {
     class AA_GL_API ShaderException : public std::runtime_error
     {
@@ -58,7 +58,7 @@ namespace Aa
     void SetUniform (GLint location, GLsizei count, const M<T, m, n> * values);
 
 #if 1
-    template <typename T, unsigned int m, unsigned int n>
+    template <typename T, unsigned int m>
     inline
     void SetUniform (GLint location, GLsizei count, const M2<T, m> * values)
     {

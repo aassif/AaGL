@@ -1,0 +1,5 @@
+#include "bits/AaGL.h"
+#include "bits/AaGLSL.h"
+#include "glsl/AaBasicProgram.hh"
+#include "glsl/AaCore.hh"
+#include "glsl/AaPhong.hh"
