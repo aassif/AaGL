@@ -1,0 +1,7 @@
+#include "bits/AaGL.h"
+#include "bits/AaGLSL.h"
+#include "glsl/AaCoreVertex.hh"
+#include "glsl/AaFillColorFragment.hh"
+#include "glsl/AaBasicProgram.hh"
+#include "glsl/AaCoreProgram.hh"
+#include "glsl/AaFillColorProgram.hh"

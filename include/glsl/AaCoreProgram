@@ -1,0 +1,4 @@
+#include "bits/AaGL.h"
+#include "bits/AaGLSL.h"
+#include "bits/AaBasicProgram.hh"
+#include "bits/AaCoreProgram.hh"
