@@ -40,6 +40,16 @@ namespace Aa
           void projection    (const mat4 & m) {m_projection    (m);}
           void normal_matrix (const mat3 & m) {m_normal_matrix (m);}
           void depth_range   (const vec2 & v) {m_depth_range   (v);}
+
+          void context (const GL::CoreContext & c)
+          {
+            const mat4 & m = c.modelview ();
+
+            m_modelview     (m);
+            m_projection    (c.projection ());
+            m_normal_matrix (GL::CoreContext::NormalMatrix (m));
+            m_depth_range   (c.depth_range ());
+          }
       };
     }
 
@@ -65,6 +75,11 @@ namespace Aa
         void projection    (const mat4 & m) {Parent::m_vertex->projection    (m);}
         void normal_matrix (const mat3 & m) {Parent::m_vertex->normal_matrix (m);}
         void depth_range   (const vec2 & v) {Parent::m_vertex->depth_range   (v);}
+
+        void context (const GL::CoreContext & c)
+        {
+          Parent::m_vertex->context (c);
+        }
 
         F * operator-> () {return Parent::m_fragment;}
     };
