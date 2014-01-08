@@ -48,24 +48,24 @@ namespace Aa
     class SSAO
     {
       private:
-        GLuint           m_random;
-        uvec2            m_random_size;
-        FBO            * m_fbo;
-        uvec2            m_fbo_size;
-        Quad             m_quad;
+        GLuint m_random;
+        uvec2  m_random_size;
+        FBO  * m_fbo;
+        uvec2  m_fbo_size;
+        Quad   m_quad;
 
-        Program          m_program;
-        Location<mat4>   m_program_projection;
-        Location<vec2>   m_program_depth_range;
-        Location<int>    m_program_randomized;
-        Location<uvec2>  m_program_screen_size;
-        Location<uvec2>  m_program_random_size;
-        Location<float>  m_program_radius;
-        Location<AaUInt> m_program_rings;
-        Location<AaUInt> m_program_slices;
-        Location<int>    m_program_tex2d_color;
-        Location<int>    m_program_tex2d_depth;
-        Location<int>    m_program_tex2d_random;
+        GLSL::Program          m_program;
+        GLSL::Location<mat4>   m_program_projection;
+        GLSL::Location<vec2>   m_program_depth_range;
+        GLSL::Location<int>    m_program_randomized;
+        GLSL::Location<uvec2>  m_program_screen_size;
+        GLSL::Location<uvec2>  m_program_random_size;
+        GLSL::Location<float>  m_program_radius;
+        GLSL::Location<AaUInt> m_program_rings;
+        GLSL::Location<AaUInt> m_program_slices;
+        GLSL::Location<int>    m_program_tex2d_color;
+        GLSL::Location<int>    m_program_tex2d_depth;
+        GLSL::Location<int>    m_program_tex2d_random;
 
       public:
         SSAO (const std::string & vertex   = "/Aa/PassThru.vertex",
