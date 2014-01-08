@@ -1,5 +1,6 @@
 #include "bits/AaGL.h"
 #include "bits/AaGLSL.h"
+#include "bits/AaCoreContext.hh"
 #include "glsl/AaBasicProgram.hh"
 #include "glsl/AaCore.hh"
 #include "glsl/AaFillColor.hh"
