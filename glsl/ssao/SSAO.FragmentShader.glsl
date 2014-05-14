@@ -15,7 +15,7 @@ void main ()
   float z = texture (aa_ssao_tex2d_depth, p).r;
   if (z == 1.0) discard;
   float o = aa_ssao_occlusion (p, z);
-  aa_fragment_color = c * o;
+  aa_fragment_color = vec4 (c.rgb * o, c.a);
   gl_FragDepth = aa_ssao_project (z);
 }
   

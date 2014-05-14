@@ -13,7 +13,7 @@ namespace Aa
         {
           READ = 1,
           DRAW = 2,
-          BOTH = 3
+          BOTH = READ | DRAW
         };
 
         enum
@@ -335,6 +335,7 @@ namespace Aa
         void bind (int mode)
         {
           glBindFramebuffer (FBO::TargetToken (mode), m_id);
+          if (mode & DRAW) this->set_draw_buffers ();
         }
 
         inline

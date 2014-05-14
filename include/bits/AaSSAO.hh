@@ -2,6 +2,7 @@
 #define AA_SSAO__H
 
 #include <AaMeshVAO>
+#include <cstdlib>
 
 namespace Aa
 {
@@ -128,7 +129,6 @@ namespace Aa
           m_fbo->clear_depth (1.0f);
           m_fbo->clear_color (0, vec4 (0.0f));
           m_fbo->clear_color (1, vec4 (1.0f));
-          m_fbo->set_draw_buffers ();
         }
 
         void draw (const CoreContext & context, float radius)
