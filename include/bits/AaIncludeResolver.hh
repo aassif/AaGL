@@ -8,7 +8,7 @@
 
 namespace Aa
 {
-  namespace GL
+  namespace GLSL
   {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ namespace Aa
     {
       private:
         inline static
-        std::string ParseId (std::istream & is, char delim1, char delim2)
+        std::string ParseIncludeName (std::istream & is, char delim1, char delim2)
           throw (Aa::ParseError)
         {
           using namespace TextParsing;
@@ -35,14 +35,14 @@ namespace Aa
         }
 
         inline static
-        std::string ParseId (std::istream & is)
+        std::string ParseIncludeName (std::istream & is)
           throw (Aa::ParseError)
         {
           int c = is.peek ();
           switch (c)
           {
-            case '"': return ParseId (is, '"', '"');
-            case '<': return ParseId (is, '<', '>');
+            case '"': return ParseIncludeName (is, '"', '"');
+            case '<': return ParseIncludeName (is, '<', '>');
             case -1 : throw Aa::ParseError::Type ("<id>");
             default : throw Aa::ParseError::Type ("<id>", c);
           }
@@ -59,7 +59,43 @@ namespace Aa
           is >> std::ws;
           is >>= "include";
           is >> std::ws;
-          return ParseId (is);
+
+          return ParseIncludeName (is);
+        }
+
+        inline static
+        std::string ParseExtension (std::istream & is)
+          throw (Aa::ParseError)
+        {
+          using namespace TextParsing;
+
+          is >> std::ws;
+          is >>= '#';
+          is >> std::ws;
+          is >>= "extension";
+          std::string extension;
+          is >> extension >> std::ws;
+          is >>= ':';
+          std::string behaviour;
+          is >> behaviour >> std::ws;
+
+          return extension;
+        }
+
+        inline static
+        bool FilterExtension (std::string & line)
+        {
+          try
+          {
+            std::istringstream iss (line);
+            std::string extension = ParseExtension (iss);
+            std::cout << "#extension " << extension << std::endl;
+            return extension == "GL_ARB_shading_language_include";
+          }
+          catch (...)
+          {
+            return false;
+          }
         }
 
       private:
@@ -81,18 +117,21 @@ namespace Aa
           std::istringstream iss1 (source);
           for (std::string line; getline (iss1, line, '\n');)
           {
-            try
+            if (! FilterExtension (line))
             {
-              std::istringstream iss2 (line);
-              std::string child = ParseInclude (iss2);
-              destination += this->resolve (child, skip);
-              while (iss2.peek () != -1) destination += iss2.get ();
+              try
+              {
+                std::istringstream iss2 (line);
+                std::string child = ParseInclude (iss2);
+                destination += this->resolve (child, skip);
+                while (iss2.peek () != -1) destination += iss2.get ();
+              }
+              catch (Aa::ParseError & e)
+              {
+                destination += line;
+              }
+              destination += '\n';
             }
-            catch (Aa::ParseError & e)
-            {
-              destination += line;
-            }
-            destination += '\n';
           }
 
           return destination;
@@ -128,7 +167,7 @@ namespace Aa
         }
     };
 
-  } // namespace GL
+  } // namespace GLSL
 } // namespace Aa
 
 #endif // AA_GL_INCLUDE_RESOLVER__H
