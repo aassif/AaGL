@@ -8,11 +8,11 @@
 in vec3 aa_vertex_normal;
 in vec4 aa_vertex_color;
 
-out layout (location = 0) vec4 aa_fragment_color;
+layout (location = 0) out vec4 aa_fragment_color;
 
 void aa_gl_core ()
 {
-  aa_fragment_color = aa_phong (aa_vertex_normal, aa_vertex_color);
+  aa_fragment_color = aa_phong (aa_vertex_normal, aa_vertex_color, 1);
 }
 
 #endif // AA_FRAGMENT

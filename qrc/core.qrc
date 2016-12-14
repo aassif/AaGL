@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/glsl">
+        <file alias="Core.glsl">../glsl/Core.glsl</file>
+        <file alias="core/Vertex.glsl">../glsl/core/Vertex.glsl</file>
+        <file alias="Core.VertexShader.glsl">../glsl/Core.VertexShader.glsl</file>
+        <file alias="core/Fragment.glsl">../glsl/core/Fragment.glsl</file>
+        <file alias="Core.FragmentShader.glsl">../glsl/Core.FragmentShader.glsl</file>
+    </qresource>
+</RCC>

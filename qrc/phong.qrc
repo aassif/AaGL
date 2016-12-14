@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/glsl">
+        <file alias="Phong.glsl">../glsl/Phong.glsl</file>
+    </qresource>
+</RCC>

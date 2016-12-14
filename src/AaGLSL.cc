@@ -73,11 +73,13 @@ namespace Aa
 
     void Program::SetString (const string & name, const string & source)
     {
+#ifndef __APPLE__
       if (GLEW_ARB_shading_language_include)
       {
         glNamedStringARB (GL_SHADER_INCLUDE_ARB, -1, name.c_str (), -1, source.c_str ());
       }
       else
+#endif
       {
 #ifdef AA_GL_INCLUDE_RESOLVER
         aa_glsl_include_resolver.set (name, source);
@@ -89,6 +91,7 @@ namespace Aa
 
     std::string Program::String (const string & name)
     {
+#ifndef __APPLE__
       if (GLEW_ARB_shading_language_include)
       {
         const char * name_c_str = name.c_str ();
@@ -105,6 +108,7 @@ namespace Aa
         return str;
       }
       else
+#endif
       {
 #ifdef AA_GL_INCLUDE_RESOLVER
         return aa_glsl_include_resolver (name);

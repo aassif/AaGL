@@ -10,3 +10,4 @@ ipch
 *.sln
 *.suo
 *~
+.DS_Store

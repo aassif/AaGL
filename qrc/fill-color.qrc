@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/glsl">
+        <file alias="FillColor.FragmentShader.glsl">../glsl/FillColor.FragmentShader.glsl</file>
+    </qresource>
+</RCC>

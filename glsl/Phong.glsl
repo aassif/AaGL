@@ -9,7 +9,7 @@ uniform float aa_phong_shininess = 16;
 const vec3 AA_PHONG_EYE   = normalize (vec3 (0, 0, 1));
 const vec3 AA_PHONG_LIGHT = normalize (vec3 (0, 0, 1));
 
-vec4 aa_phong (vec3 n, vec4 c, float white = 1)
+vec4 aa_phong (vec3 n, vec4 c, float white)
 {
   vec3  normal   = normalize (n);
   float diffuse  = abs (dot (AA_PHONG_LIGHT, normal));

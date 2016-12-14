@@ -1,7 +1,12 @@
 #ifndef AA_GL__H
 #define AA_GL__H
 
-#include <GL/glew.h>
+#ifdef __APPLE__
+  #include <OpenGL/gl3.h>
+#else
+  #include <GL/glew.h>
+#endif
+
 #include <AaMatrix>
 #include <AaBox>
 
@@ -41,8 +46,10 @@ namespace Aa
         case GL_INVALID_OPERATION:             throw std::runtime_error (prefix + ": " + "GL_INVALID_OPERATION");
         case GL_INVALID_FRAMEBUFFER_OPERATION: throw std::runtime_error (prefix + ": " + "GL_INVALID_FRAMEBUFFER_OPERATION");
         case GL_OUT_OF_MEMORY:                 throw std::runtime_error (prefix + ": " + "GL_GL_OUT_OF_MEMORY");
+#ifndef __APPLE__
         case GL_STACK_UNDERFLOW:               throw std::runtime_error (prefix + ": " + "GL_STACK_UNDERFLOW");
         case GL_STACK_OVERFLOW:                throw std::runtime_error (prefix + ": " + "GL_STACK_OVERFLOW");
+#endif
         default:                               throw std::runtime_error (prefix + ": " + "???");
       }
     }
