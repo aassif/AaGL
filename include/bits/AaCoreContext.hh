@@ -8,13 +8,6 @@ namespace Aa
 
     class CoreContext
     {
-      public:
-        inline static
-        mat3 NormalMatrix (const mat4 & modelview)
-        {
-          return mat3 (modelview).inv ().transpose ();
-        }
-
       private:
         mat4 m_modelview;
         mat4 m_projection;

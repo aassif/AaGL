@@ -47,7 +47,7 @@ namespace Aa
 
             m_modelview     (m);
             m_projection    (c.projection ());
-            m_normal_matrix (GL::CoreContext::NormalMatrix (m));
+            m_normal_matrix (NormalMatrix (m));
             m_depth_range   (c.depth_range ());
           }
       };
