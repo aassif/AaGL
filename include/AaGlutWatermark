@@ -1,5 +1,0 @@
-#include "bits/AaGL.h"
-#include "bits/AaScene.h"
-#include "bits/AaGlutText.hh"
-#include "bits/AaGlutWatermark.hh"
-

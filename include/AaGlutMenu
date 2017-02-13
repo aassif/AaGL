@@ -1,4 +1,0 @@
-#include "bits/AaGL.h"
-#include "bits/AaGlutText.h"
-#include "bits/AaGlutMenu.h"
-
