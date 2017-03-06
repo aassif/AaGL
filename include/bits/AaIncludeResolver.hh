@@ -89,7 +89,6 @@ namespace Aa
           {
             std::istringstream iss (line);
             std::string extension = ParseExtension (iss);
-            std::cout << "#extension " << extension << std::endl;
             return extension == "GL_ARB_shading_language_include";
           }
           catch (...)
