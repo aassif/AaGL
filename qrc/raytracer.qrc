@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/glsl/raytracer">
+        <file alias="Raytracer.VertexShader.glsl">../glsl/raytracer/Raytracer.VertexShader.glsl</file>
+        <file alias="Raytracer.FragmentShader.glsl">../glsl/raytracer/Raytracer.FragmentShader.glsl</file>
+    </qresource>
+</RCC>

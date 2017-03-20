@@ -81,10 +81,7 @@ namespace Aa
           Parent::m_vertex->context (c);
         }
 
-        void use ()
-        {
-          Parent::use ();
-        }
+        using Parent::use;
 
         void use (const GL::CoreContext & c)
         {

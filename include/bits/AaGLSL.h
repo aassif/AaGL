@@ -263,7 +263,7 @@ namespace Aa
 
 #undef AA_GLSL_UNIFORM_MATRIX_ARRAY
 
-  } // namespace GL
+  } // namespace GLSL
 } // namespace Aa
 
 #endif // AA_GLSL__H
