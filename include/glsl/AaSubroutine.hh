@@ -82,7 +82,7 @@ namespace Aa
             const Subroutine & s = m_subroutines [i];
 
             GLint j = s.location ();
-            if (j >= 0 && j < n) m_indices [j] = s [values [i]];
+            if (j >= 0 && (GLuint) j < n) m_indices [j] = s [values [i]];
           }
 
           glUniformSubroutinesuiv (m_type, n, m_indices);
