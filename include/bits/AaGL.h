@@ -83,7 +83,7 @@ namespace Aa
 // Aa::GL::Project /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __APPLE__
+#if 0 // gluProject
     AA_GL_INLINE
     dvec3 Project (const dvec3    & object,
                    const GLdouble * modelview,
@@ -104,7 +104,7 @@ namespace Aa
                    const dmat4 & projection,
                    const ibox2 & viewport)
     {
-#ifdef __APPLE__
+#if 1 // gluProject
       dvec4 o = projection * modelview * dvec4 (object, 1);
       ivec3 vp = ivec3 (viewport.pos  (), 0);
       ivec3 vd = ivec3 (viewport.dims (), 1);
@@ -121,7 +121,7 @@ namespace Aa
 // Aa::GL::UnProject ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __APPLE__
+#if 0 // gluUnProject
     AA_GL_INLINE
     dvec3 UnProject (const dvec3    & window,
                      const GLdouble * modelview,
@@ -142,7 +142,7 @@ namespace Aa
                      const dmat4 & projection,
                      const ibox2 & viewport)
     {
-#ifdef __APPLE__
+#if 1 // gluUnProject
       ivec3 vp = ivec3 (viewport.pos  (), 0);
       ivec3 vd = ivec3 (viewport.dims (), 1);
       dvec4 p = dvec4 (2.0 * (window - vp) / vd - 1, 1);
