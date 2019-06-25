@@ -2,7 +2,9 @@
 #define AA_GL__H
 
 #ifdef __APPLE__
+  #define GL_SILENCE_DEPRECATION
   #include <OpenGL/gl3.h>
+  #define __gl_h_
 #else
   #include <GL/glew.h>
 #endif
@@ -146,7 +148,6 @@ namespace Aa
       ivec3 vp = ivec3 (viewport.pos  (), 0);
       ivec3 vd = ivec3 (viewport.dims (), 1);
       dvec4 p = dvec4 (2.0 * (window - vp) / vd - 1, 1);
-      std::cout << "Aa::GL::UnProject " << p << std::endl;
       dvec4 u = mat4 (projection * modelview).inv () * p;
       return u / u [3];
 #else
