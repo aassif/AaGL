@@ -101,7 +101,7 @@ namespace Aa
       public:
         /*inline*/ static
         std::string ReadSource (const std::string & path)
-          throw (FileNotFound);
+          AA_THROW (FileNotFound);
 
         /*inline*/ static
         void SetString (const std::string & name, const std::string & source);
@@ -114,13 +114,13 @@ namespace Aa
                              GLsizei count,
                              const GLchar ** buffers,
                              const GLint * lengths)
-          throw (ShaderException);
+          AA_THROW (ShaderException);
 
         /*inline*/ static
         GLuint CreateShader (GLenum type,
                              const GLchar * buffer,
                              GLint length)
-          throw (ShaderException);
+          AA_THROW (ShaderException);
 
         /*inline*/ static
         std::string ShaderLog (GLuint shader);
@@ -136,11 +136,11 @@ namespace Aa
         // Shader attachment.
         void attach (GLenum type,
                      const std::string & source)
-          throw (ShaderException);
+          AA_THROW (ShaderException);
 
         // Validation, linkage and usage.
-        void validate () const throw (ShaderException);
-        void link () const throw (ShaderException);
+        void validate () const AA_THROW (ShaderException);
+        void link () const AA_THROW (ShaderException);
         void use () const;
 
         // Location.

@@ -20,7 +20,7 @@ namespace Aa
       private:
         inline static
         std::string ParseIncludeName (std::istream & is, char delim1, char delim2)
-          throw (Aa::ParseError)
+          AA_THROW (Aa::ParseError)
         {
           using namespace TextParsing;
 
@@ -36,7 +36,7 @@ namespace Aa
 
         inline static
         std::string ParseIncludeName (std::istream & is)
-          throw (Aa::ParseError)
+          AA_THROW (Aa::ParseError)
         {
           int c = is.peek ();
           switch (c)
@@ -50,7 +50,7 @@ namespace Aa
 
         inline static
         std::string ParseInclude (std::istream & is)
-          throw (Aa::ParseError)
+          AA_THROW (Aa::ParseError)
         {
           using namespace TextParsing;
 
@@ -65,7 +65,7 @@ namespace Aa
 
         inline static
         std::string ParseExtension (std::istream & is)
-          throw (Aa::ParseError)
+          AA_THROW (Aa::ParseError)
         {
           using namespace TextParsing;
 
@@ -151,7 +151,7 @@ namespace Aa
 
         inline
         const std::string & operator[] (const std::string & id) const
-          throw (std::out_of_range)
+          AA_THROW (std::out_of_range)
         {
           std::map<std::string, std::string>::const_iterator i = m_includes.find (id);
           if (i == m_includes.end ()) throw std::out_of_range ("Aa::GL::IncludeResolver: " + id);

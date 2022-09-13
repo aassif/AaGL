@@ -10,15 +10,19 @@ namespace Aa
 
     inline
     std::string Resource (const QString & name)
-      throw (Aa::FileNotFound)
+      AA_THROW (Aa::FileNotFound)
     {
       QResource r (name);
 
       if (! r.isValid ())
         throw Aa::FileNotFound (name.toStdString ());
 
+#if 0
       QByteArray bytes ((const char *) r.data (), r.size ());
       return (r.isCompressed () ? qUncompress (bytes) : bytes).toStdString ();
+#else
+      return r.uncompressedData ().toStdString ();
+#endif
     }
 
     inline

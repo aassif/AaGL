@@ -61,7 +61,7 @@ namespace Aa
 ////////////////////////////////////////////////////////////////////////////////
 
     string Program::ReadSource (const string & path)
-      throw (FileNotFound)
+      AA_THROW (FileNotFound)
     {
       ifstream ifs (path.c_str ());
 
@@ -144,7 +144,7 @@ namespace Aa
                                   GLsizei count,
                                   const GLchar ** buffers,
                                   const GLint * lengths)
-      throw (ShaderException)
+      AA_THROW (ShaderException)
     {
       GLuint shader = glCreateShader (type);
       glShaderSource (shader, count, buffers, lengths);
@@ -164,7 +164,7 @@ namespace Aa
     GLuint Program::CreateShader (GLenum type,
                                   const GLchar * buffer,
                                   GLint length)
-      throw (ShaderException)
+      AA_THROW (ShaderException)
     {
       return CreateShader (type, 1, &buffer, &length);
     }
@@ -181,7 +181,7 @@ namespace Aa
     }
 
     void Program::attach (GLenum type, const string & source)
-      throw (ShaderException)
+      AA_THROW (ShaderException)
     {
       try
       {
@@ -196,7 +196,7 @@ namespace Aa
       }
     }
 
-    void Program::link () const throw (ShaderException)
+    void Program::link () const AA_THROW (ShaderException)
     {
       glLinkProgram (m_id);
 
@@ -210,7 +210,7 @@ namespace Aa
       }
     }
 
-    void Program::validate () const throw (ShaderException)
+    void Program::validate () const AA_THROW (ShaderException)
     {
       glValidateProgram (m_id);
 
